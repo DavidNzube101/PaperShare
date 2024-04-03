@@ -1,0 +1,852 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ current_user.name }} | PaperShare {% endblock %}
+{% block content %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style type="text/css">
+    :root {
+      --app-container: #f3f6fd;
+      --link-color-hover: #c3cff4;
+      --main-color: #1f1c2e;
+      --secondary-color: #4A4A4A;
+      --projects-section: #fff;
+      --more-list-bg: #fff;
+      --more-list-bg-hover: #f6fbff;
+      --more-list-shadow: rgba(209, 209, 209, 0.4);
+      --button-bg: #1f1c24;
+    }
+    @keyframes cgCl{
+      0%{
+        background: #dbc4c6;
+
+      }
+      20%{
+        background: #dbc4d3;
+
+      }
+      30%{
+        background: #d6c4db;
+
+      }
+      40%{
+        background: #c4d3db;
+
+      }
+      50%{
+        background: #c4dbcf;
+
+      }
+      70%{
+        background: #cadbc4;
+
+      }
+      80%{
+        background: #dbd9c4;
+
+      }
+      90%{
+        background: #dbc4c4;
+
+      }
+    }
+      html{
+        height: 100vh;
+        width: 100vw;
+      }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      border-radius: 20px;
+      text-align: left;
+    }
+    .Intro_Text{
+      font-family: sans-serif;
+    }
+    .Intro_Text span{
+      font-weight: 300;
+    }
+    .Intro_Text strong{
+      font-weight: 900;
+      font-family: "Segoe UI";
+    }
+    .header .userInfo{
+      margin: 10px;
+      background: rgba(189, 183, 107, 0.393);/*#f5f5f5*/
+      border-radius: 20pc;
+      width: fit-content;
+      height: fit-content;
+      padding: 20px;
+    }
+    .dashboard{
+      background: rgba(189, 183, 107, 0.393);
+      border-radius: 10px;
+      height: 50%;
+      width: 100%;
+      text-align: center;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      animation: cgCl 20s infinite cubic-bezier(0, 0, 0.07, 0.86);
+    }
+    .notes{
+
+      background: rgba(189, 183, 107, 0.393);
+      border-radius: 10px;
+      height: 50%;
+      width: 100%;
+      animation: cgCl 20s infinite cubic-bezier(0, 0, 0.07, 0.86);
+      margin-top: 10px;
+    }
+    .metrics{
+      border-radius: 10px;
+      height: 50%;
+      width: 100%;
+      animation: cgCl 20s infinite cubic-bezier(0, 0, 0.07, 0.86);
+      margin-top: 10px;
+    }
+    #intx {
+      width: 90%;
+      padding: 10px;
+      outline: none;
+      border: none;
+      background: #f5f5f5;
+      border-radius: 5pc;
+      font-size: 16px;
+    }
+    #fetchBtn{
+      background-color: #1f1c2e;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .dashboard-txt{
+      text-align: center;
+      font-weight: 900;
+      font-family: sans-serif;
+      color: black;
+    }
+     .teachers-view{
+      width: 100%;
+    }
+    .image-preview{
+      width: 300px;
+      min-height: 100px;
+      border: 2px solid #000000;
+      margin-top: 15px;
+
+      display: flex;
+      border-radius: 20px;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #cccccc;
+      background: #f5f5f5;
+    }
+    .image-preview__image{
+      display: none;
+      width: 100%;
+    }
+    textarea{
+      height: 100px;
+      border-radius: 5px;
+      width: 100%;
+      padding: 10px;
+      outline: none;
+      border: none;
+      background: #f5f5f5;
+      font-size: 16px;
+    }
+    #inpFile{
+      width: fit-content;
+      text-align: center;
+      border: hidden;
+      color: black;
+    }
+    .threads{
+      height: 50%;
+      margin-top: 10px;
+      text-align: center;
+      border-radius: 20px;
+      background: rgba(189, 183, 107, 0.393);
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      animation: cgCl 20s infinite cubic-bezier(0, 0, 0.07, 0.86);
+    }
+
+    .the-project {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        /*backdrop-filter: blur(0.7rem);*/
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .the-project-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 40px;
+        background-color: var(--app-container);
+        padding: 20px;
+        text-align: left;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        width: 90%;
+        height: 90%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .the-project-content .footer, .the-project-content .header{
+      text-align: center;
+    }
+    .the-project-content .header{
+      font-weight: bolder;
+      font-size: 26px;
+    }
+    .the-project-content .img-slider{
+      overflow-x: auto;
+      overflow-y: hidden;
+      text-align: center;
+    }
+    .the-project-content .img-slider img{
+      height: 300px;
+      width: 400px;
+    }
+    .proclose {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+    .pro-modal-button{
+      background-color: var(--button-bg);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .new-project-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        /*backdrop-filter: blur(0.7rem);*/
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .project-modal-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 40px;
+        background-color: var(--app-container);
+        padding: 20px;
+        text-align: center;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        width: 80%;
+
+    }
+
+    .pr-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .project-box {
+      --main-color-card: #dbf6fd;
+      border-radius: 30px;
+      height: 200px;
+/*      overflow-x: hidden;*/
+/*      overflow-y: auto;*/
+      width: 200px;
+      cursor: pointer;
+      margin: 10px;
+      padding: 16px;
+      background-color: var(--main-color-card);
+    }
+    .project-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      color: var(--main-color);
+
+    }
+    .project-box-header span {
+      color: #4A4A4A;
+      opacity: 0.7;
+      font-size: 14px;
+      line-height: 16px;
+    }
+    .project-box-content-header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .project-box-content-header p {
+      margin: 0;
+    }
+    .project-footer{
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      color: red;
+    }
+    .project-box-wrapper {
+      padding: 8px;
+      transition: 0.2s;
+    }
+
+    .project-btn-more {
+      padding: 0;
+      height: 14px;
+      width: 24px;
+      height: 24px;
+      position: relative;
+      background-color: transparent;
+      border: none;
+      flex-shrink: 0;
+      /*&:after, &:before {
+        content: '';
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: var(--main-color);
+        opacity: .8;
+        left: 50%;
+        transform: translatex(-50%);
+      }
+
+      &:before { top: 0;}
+      &:after { bottom: 0; }*/
+    }
+    .thread{
+      background: #c8cdf191;
+      height: 300px;
+      width: 90%;
+      border-radius: 20px;
+      margin: 10px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      display: grid;
+      place-items: center;
+    }
+    .new-community-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        /*backdrop-filter: blur(0.7rem);*/
+        z-index: 100000000000000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .community-modal-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 40px;
+        background-color: white;/*var(--app-container)*/
+        padding: 20px;
+        text-align: center;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        width: 80%;
+        height: 80vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .cm-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+    .cm-modal-button {
+        background-color: var(--button-bg);
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .cm-modal-button:hover {
+        background-color: var(--link-color-hover);
+    }
+    .school-name{
+      padding: 20px;
+      margin: 20px;
+      display: flex;
+    align-items: center;
+      border-radius: 20px;
+    }
+    .school-name strong{
+      padding: 10px;
+      color: #ffca00;
+      background: #ffb3004a;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+    <input type="hidden" id="cpyIt">
+  <!-- MODALS -->
+
+  <div class="new-community-modal" id="communityModal2">
+    <div class="community-modal-content">
+        <span class="cm-close" id="cm-closeModal2">&times;</span>
+        <h2>Logged in as {{ current_user.name }}</h2>
+        <p style="font-weight: bolder; color: #ff8f00f0;">{{ current_user.who }}</p>
+        <form action="/updateInfo" method="POST">
+          <input id="intx" type="text" name="name" value="{{ current_user.name }}">
+          <br>
+          <br>
+          <input id="intx" type="email" name="email" value="{{ current_user.email }}">
+          <p>User Type</p><!-- align="center"-->
+          <select id="intx" name="userType">
+            <option>Teacher</option>
+            <option>Student</option>
+          </select>
+          <br>
+          <br>
+          <br>
+
+          <span class="school-name">School: <strong>{{ pts.name }}</strong></span><br><br><br>
+          <button class="cm-modal-button" type="sumbit">Update Info</button>
+        </form>
+        <a href="/logout"><button class="cm-modal-button">Logout</button></a>
+    </div>
+  </div>
+
+  <div class="new-community-modal" id="communityModal3">
+      <div class="community-modal-content" id="CM3">
+          <span class="cm-close" id="cm-closeModal3">&times;</span>
+          hi
+      </div>
+  </div>     
+
+
+
+  <div class="header" id="headingText">
+      <h1 class="Intro_Text">
+        <span>IPING</span> <strong>PaperShare</strong>
+      </h1>
+      <div class="userInfo" id="UI" style="cursor: pointer; background: skyblue;">
+        {{ uan }}
+      </div>
+      
+  </div>
+
+
+<div class="dsh-thr"><!--468--->
+  <div class="dashboard" id="dashBoard">
+    <h2 class="dashboard-txt" id="sub_Teach">Create</h2>
+
+
+    <form action="/create-assignment" method="POST" enctype="multipart/form-data">
+      <h3>Assignment Code</h3>
+      <input type="number" name="assCode" id="intx" value="{{ generatedCode }}">
+
+      <h3>Subject</h3>
+      <select id="intx" name="subject">
+          <option value="mathematics">Mathematics</option>
+          <option value="english">English Language</option>
+          <option value="civic">Civic Education</option>
+          <option value="physics">Physics</option>
+          <option value="biology">Biology</option>
+          <option value="chemistry">Chemistry</option>
+          <option value="economics">Economics</option>
+          <option value="commerce">Commerce</option>
+          <option value="financial-accounting">Financial Accounting</option>
+          <option value="agricultural-science">Agricultural Science</option>
+          <option value="government">Government</option>
+          <option value="crs">Christian Religious Studies (CRS)</option>
+          <option value="td">Technical Drawing (TD)</option>
+          <option value="book-keeping">Book-Keeping</option>
+          <option value="dp">Data Processing (DP)</option>
+          <option value="home-economics">Home Economics</option>
+          <option value="basic-science">Basic Science</option>
+          <option value="phe">Physical and Health Education (PHE)</option>
+          <option value="french">French</option>
+          <option value="music">Music</option>
+          <option value="fine-art">Fine Art</option>
+          <option value="basic-technology">Basic Technology</option>
+          <option value="computer-studies">Computer Studies</option>
+          <option value="business-studies">Business Studies</option>
+          <option value="social-studies">Social Studies</option>
+          <option value="coding-and-robotics">Coding and Robotics</option>
+    </select>
+
+
+      <h3>Content</h3>
+      <textarea name="content" placeholder="Assignment content"></textarea>
+
+      <h3>Images, Diagrams or Materials</h3>
+      <div class="image-preview" id="imagePreview">
+        <img src="" alt="Image Preview" class="image-preview__image" id="assignImage">
+        <span class="image-preview__default-text">Select Item</span>
+      </div>
+      <input type="file" name="inpFile" id="inpFile">
+      <br>
+      <h3>Include Deadline</h3>
+      <input type="date" name="deadlineDate" id="intx">
+      <br>
+      <br>
+      <input type="time" name="deadlineTime" id="intx">
+
+      <button id="fetchBtn" type="submit">Create</button>
+    </form>
+
+
+    <marquee direction="up"><span id="noSubChoose"></span></marquee>
+    <div class="about_view"></div>
+  </div>
+
+  <div class="threads">
+    <h2 class="dashboard-txt" style="padding-top: 30px;">Assignments</h2>
+
+    <div class="threads-projs">
+      {% if current_user.assignment: %}
+        {% for ass in current_user.assignment %}
+
+        <div class="new-community-modal" id="communityModal">
+          <div class="community-modal-content">
+              <span class="cm-close" id="cm-closeModal">&times;</span>
+              <h2>Edit Assignment</h2>
+              <form action="/update/{{ ass.id }}" method="POST">
+                <h3>Name</h3>
+                <input id="intx" type="text" name="name" value="{{ ass.name }}" placeholder="Assignment Name">
+                <br>
+                <br>
+                <h3>Assignment Content</h3>
+                <textarea name="description" value="{{ ass.data }}" placeholder="{{ ass.data }}"></textarea>
+                <br>
+                <br>
+                <h3>Edit Deadline</h3>
+                <input type="date" name="deadlineDate" value="{{ ass.deadlineDate }}" id="intx">
+                <br>
+                <br>
+                <input type="time" name="deadlineTime" value="{{ ass.deadlineTime }}" id="intx">
+                <br>
+                <br>
+                <h3>Code</h3>
+                <input id="intx" type="number" name="communityCode" value="{{ ass.code }}" disabled>
+                <br>
+                <br>
+                <button class="cm-modal-button" type="sumbit" id="cmmodalButton">Update</button>
+              </form>
+          </div>
+        </div>
+
+        <div class="project-box" id="the-project-{{ ass.id }}" style="background-color: #fee4cb;">
+              <div class="project-box-header">
+                <span>{{ ass.date }}</span>
+
+            </div>
+          <div class="project-box-content-header">
+            <p class="box-content-header">{{ ass.name }}</p>
+            <p class="box-content-subheader" style="padding: 30px; font-size: 30px; font-weight: 700; font-family: 'Segoe UI';"><strong>{{ ass.code }}</strong></p>
+          </div>
+        </div>
+
+
+        <div class="the-project" id="theProject-{{ ass.id }}">
+            <div class="the-project-content">
+                <!-- <span class="pro-close" id="pro-closeModal2">&times;</span> -->
+
+                <div class="header">
+                  {{ ass.name }} Assignment
+                </div>
+
+                <p>Content: {{ ass.data }}</p>
+                <br>
+                <p>Code: <span style="background: #000000; color: white; width: fit-contents; padding: 10px; border-radius: 10pc; font-weight: 700;">{{ ass.code }}</span></p>
+
+                <p>Created at {{ ass.date }}</p>
+                <p>To be submitted on
+                  {% if ass.deadlineDate: %}
+                    <strong>{{ dateClean.clean_date(ass.deadlineDate) }}</strong> by
+                  {% else: %}
+                    <strong>Not specified</strong> by
+                  {% endif %}
+
+                  {% if ass.deadlineTime: %}
+                    <strong>{{ ass.deadlineTime }}</strong></p>
+                  {% else: %}
+                    <strong>Not specified</strong></p>
+                  {% endif %}
+
+                <div class="img-slider">
+                  {% if ass.image %}
+                      <img src="{{ url_for('views.uploaded_file', filename=ass.image) }}" alt="{{ ass.name }} Image">
+                  {% else %}
+                      <p>No image available</p>
+                  {% endif %}
+                </div>
+
+                <!-- <img src="data:image/jpeg;base64,{{ base64_encoded_image_data }}" alt="Project Image"> -->
+
+                <div class="thread" style="text-align: center;">
+                  <iframe style="border: 1px solid white; border-radius: 20px; width: 90%;" src="/thread/{{ ass.code }}"></iframe>
+                  Thread Preview
+                  <p>Click <a href="/thread/{{ ass.code }}"><i>here</i></a> to refresh the assignment <strong>threads</strong></p>
+                </div>
+
+                <form action="/delete-created-assignment" method="POST">
+                  <input type="hidden" name="assignmentID" value="{{ ass.id }}">
+                  <div class="twm" style="text-align: center;">
+                    <button type="button" class="pro-modal-button" style="background: #6bd709d1;" id="editAss">Edit Assignment</button>
+                    <button type="submit" class="pro-modal-button delAss" style="background: #ff0000d1;">Delete Assignment</button>
+                  </div>
+                </form>
+
+                <div class="footer">
+                  <!-- <a href="/logout"> -->
+                    <button class="pro-modal-button" id="pro-closeModal2-{{ ass.id }}">Cancel</button>
+                  <!-- </a> -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="project-box" id="newAssignment" style="display: grid; place-items: center; font-size: 30px; background-color: transparent; border: 10px dashed #fee4cb;">
+           <p>+</p>
+        </div>
+
+        {% for ass in current_user.assignment %}
+        <script type="text/javascript">
+          const tpromodal{{ ass.id }} = document.getElementById('theProject-{{ ass.id }}');
+          const theProject{{ ass.id }} = document.querySelector('#the-project-{{ ass.id }}');
+          const tprocloseModal{{ ass.id }} = document.querySelector('#pro-closeModal2-{{ ass.id }}');
+
+          // Function to open the modal
+          function oopenModal{{ ass.id }}() {
+            tpromodal{{ ass.id }}.style.display = 'block';
+          }
+
+          // Function to close the modal
+          function ccloseModal{{ ass.id }}() {
+            tpromodal{{ ass.id }}.style.display = 'none';
+          }
+
+          // Event listeners
+          theProject{{ ass.id }}.addEventListener('click', oopenModal{{ ass.id }}); // Change this to open the modal
+          tprocloseModal{{ ass.id }}.addEventListener('click', ccloseModal{{ ass.id }});
+
+          // Optionally, you can trigger the modal to open by calling openModal() in your JavaScript when needed.
+
+          // Close the modal if the user clicks outside the modal content
+          window.addEventListener('click', (event) => {
+              if (event.target === tpromodal{{ ass.id }}) {
+                  tpromodal{{ ass.id }}.style.display = 'none';
+              }
+          });
+        </script>
+        {% endfor %}
+      {% else: %}
+        <button class="newIco" type="button" onclick="showDshB()" style="margin-top: 30px; cursor: pointer; outline: none; border: 0; background: #1f1c2e; color: white; padding-right: 20px; padding-left: 20px; border-radius: 10px; font-size: 30px;">+</button>
+        <p class="newIcoText">No Assignment yet? Create one</p>
+      {% endif %}
+    </div>
+
+        <script>
+            const dshb = document.querySelector("#dashBoard");
+            dshb.style.display = "none";
+            function showDshB(){
+                dshb.style.display = "grid";
+                document.querySelector(".newIco").textContent = "";
+                document.querySelector(".newIcoText").textContent = "Assignments you create would show up here!";
+            }
+            document.querySelector("#newAssignment").addEventListener("click", function(){
+              showDshB();
+            });
+        </script>
+  </div>
+
+  {% if pt.PlanType == "Free": %}
+    <div></div>
+
+  {% elif pt.PlanType == "Mini": %}
+    <div></div>
+
+  {% else: %}
+    <div class="notes" style="overflow-x: hidden; overflow-y: auto;">
+      <h2 style="font-size: 25px; margin-top: 10px; padding-top: 20px;">NoteByte</h2>
+      <div class="notes-body" style="display: grid; place-items: center; margin-top: 100px;">
+        {% if nts: %}
+          {% for nt in nts: %}
+
+            <div class="aStudent">
+              <div class="name-tag">
+                <p style="background: {{ radColor }};" class="tnt">{{ uanf(nt.name) }}</p>
+              </div>
+              <div class="name-email">
+                <h2>{{ nt.name }}</h2>
+              </div>
+
+              <div class="acde">
+
+
+                <button type="button" style="background: #edff0082; color: #737b09;" class="button1">Edit</button>
+                <button type="button" class="button2"><a href="/remove-note/{{ nt.id }}">Remove</a></button>
+
+              </div>
+            </div>
+          {% endfor %}
+          <form action="/create-note" method="POST">
+            <button type="submit" style="background: #1f1c2e; color: white; padding: 10px; border-radius: 10px; font-size: 20px;">+ Add Note</button>
+          </form>
+
+        {% else: %}
+          <form action="/create-note" method="POST">
+            <button type="submit" style="background: #1f1c2e; color: white; padding-right: 20px; padding-left: 20px; border-radius: 10px; font-size: 30px;">+</button>
+          </form>
+          <p>Add a note</p>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- <div class="metrics">
+    <h2 style="font-size: 25px; margin-top: 10px; padding-top: 20px;">Metrics & Stats</h2>
+
+
+    {% if radt: %}
+      <div class="mas-body" style="display: grid; place-items: center; margin-top: 100px;">
+        <p>{{ radt }}</p>
+      </div>
+    {% else: %}
+      <div class="mas-body" style="display: grid; place-items: center; margin-top: 100px;">
+        <p>Students metrics would show up here</p>
+      </div>
+    {% endif %}
+
+  </div> -->
+
+
+</div>
+<script type="text/javascript">
+  const inpFile = document.getElementById('inpFile');
+  const previewContainer = document.getElementById('imagePreview');
+  const previewImage = previewContainer.querySelector('.image-preview__image');
+  const previewDefaultText = previewContainer.querySelector('.image-preview__default-text');
+
+  inpFile.addEventListener("change", function() {
+      const file = this.files[0];
+
+      if (file) {
+          const reader = new FileReader();
+
+          previewDefaultText.style.display = "none";
+          previewImage.style.display = "block";
+
+          reader.addEventListener("load", function(){
+              previewImage.setAttribute("src", this.result);
+          });
+
+              reader.readAsDataURL(file);
+          } else {
+              previewDefaultText.style.display = null;
+              previewImage.style.display = null;
+              previewImage.setAttribute("src", "");
+          }
+      });
+</script>
+<script type="text/javascript">
+  const cmmodal = document.getElementById('communityModal');
+  const newCommunityButton = document.querySelector('#editAss');
+  const cmcloseModal = document.querySelector('#cm-closeModal');
+
+
+  function openCMModal() {
+      
+      cmmodal.style.display = 'block';
+  }
+
+  // Function to close the modal
+  function closeCMModal() {
+      
+      cmmodal.style.display = 'none';
+  }
+
+  // Event listeners
+  newCommunityButton.addEventListener('click', openCMModal); // Change this to open the modal
+  cmcloseModal.addEventListener('click', closeCMModal);
+
+  // Optionally, you can trigger the modal to open by calling openModal() in your JavaScript when needed.
+</script>
+
+<script type="text/javascript">
+  const cmmodal2 = document.getElementById('communityModal2');
+  const newCommunityButton2 = document.querySelector('#UI');
+  const cmcloseModal2 = document.querySelector('#cm-closeModal2');
+
+  // Function to open the modal
+  function openCCModal() {
+      
+      cmmodal2.style.display = 'block';
+
+    }
+  // Function to close the modal
+  function closeCCModal() {
+      cmmodal2.style.display = 'none';
+  }
+
+  // Event listeners
+  newCommunityButton2.addEventListener('click', openCCModal); // Change this to open the modal
+  cmcloseModal2.addEventListener('click', closeCCModal);
+
+  // Optionally, you can trigger the modal to open by calling openModal() in your JavaScript when needed.
+</script>
+
+</body>
+</html>
+
+
+{% endblock %}

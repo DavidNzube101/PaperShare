@@ -1,0 +1,1075 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ current_user.name }} | PaperShare {% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html id="page">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Renics Online Assignment Submitter</title>
+	<style type="text/css">
+		:root {
+		  --app-container: #f3f6fd;
+		  --main-color: #1f1c2e;
+		  --secondary-color: #4A4A4A;
+		  --projects-section: #fff;
+		  --more-list-bg: #fff;
+		  --more-list-bg-hover: #f6fbff;
+		  --more-list-shadow: rgba(209, 209, 209, 0.4);
+		  --button-bg: #1f1c24;
+		  --link-color-hover: #c3cff4;
+		}
+		@keyframes cgCl{
+			0%{
+				background: #dbc4c6;
+
+			}
+			20%{
+				background: #dbc4d3;
+
+			}
+			30%{
+				background: #d6c4db;
+
+			}
+			40%{
+				background: #c4d3db;
+
+			}
+			50%{
+				background: #c4dbcf;
+
+			}
+			70%{
+				background: #cadbc4;
+
+			}
+			80%{
+				background: #dbd9c4;
+
+			}
+			90%{
+				background: #dbc4c4;
+
+			}
+		}
+		html{
+			background: url(lightBg.jpg);
+			height: 100vh;
+			width: 100vw;
+		}
+		#name, #Class, #submitCredentials{
+			margin: 5px;
+			width: 200px;
+			padding: 10px;
+			outline: none;
+			background: linear-gradient(to left, #f5f5f561, #f5f5f54a);
+			border: 0;
+			border-radius: 20px;
+			color: red;
+		}
+		#submitCredentials{
+			color: black;
+			font-weight: 700;
+			background: linear-gradient(to left, skyblue, rebeccapurple);
+		}
+		.header{
+          display: flex;
+          justify-content: space-between;
+          border-radius: 20px;
+          text-align: left;
+        }
+        .Intro_Text{
+          font-family: sans-serif;
+        }
+        .Intro_Text span{
+          font-weight: 300;
+        }
+        .Intro_Text strong{
+          font-weight: 900;
+          font-family: "Segoe UI";
+        }
+        .header .userInfo{
+          margin: 10px;
+          background: rgba(189, 183, 107, 0.393);/*#f5f5f5*/
+          border-radius: 20pc;
+          width: fit-content;
+          height: fit-content;
+          padding: 20px;
+        }
+		@keyframes turn{
+			85%, 100%{
+				transform: rotateY(45deg);
+				transform: rotateX(45deg);
+			}
+		}
+		@keyframes slide{
+			85%, 100%{
+				background: linear-gradient(to left, skyblue, rebeccapurple);
+			}
+		}
+		@keyframes justTurn{
+			25%{
+				transform: rotateY(120deg);
+				transform: rotateX(270deg);
+				color: blue;
+				font-style: normal;
+				font-family: fantasy;
+			}
+			50%{
+				transform: rotateY(120deg);
+				transform: rotateX(270deg);
+				color: orange;
+				font-style: normal;
+				font-family: monospace;
+			}
+			75%{
+				transform: rotateY(120deg);
+				transform: rotateX(270deg);
+				color: yellow;
+				font-style: normal;
+				font-family: serif;
+			}
+			100%{
+				transform: rotateY(120deg);
+				transform: rotateX(270deg);
+				color: green;
+				font-style: normal;
+				font-family: unset;
+			}
+		}
+		@keyframes invert {
+			25%{
+				background-color: #fff;
+				color: red;
+				border: 2px solid #fff;
+			}
+			50%{
+				background-color: red;
+				color: white;
+				border: 2px solid red;
+			}
+			75%{
+				background-color: #fff;
+				color: red;
+				border: 2px solid #fff;
+			}
+			100%{
+				background-color: red;
+				color: white;
+				border: 2px solid red;
+			}
+		}
+		#welcome{
+			text-align: center;
+			font-weight: 900;
+			font-family: Bahnschrift;
+			color: black;
+			background-color: red;
+			border-radius: 2px;
+			width: fit-content;
+		}
+		.dashboard{
+			background: rgba(189, 183, 107, 0.393);
+			border-radius: 10px;
+			height: 50%;
+			width: 100%;
+			display: grid;
+			place-items: center;
+			text-align: center;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+		#intx {
+          width: 100%;
+          padding: 10px;
+          outline: none;
+          border: none;
+          background: #f5f5f5;
+          border-radius: 5pc;
+          font-size: 16px;
+        }
+        #fetchBtn{
+        	background-color: #1f1c2e;
+        	color: #fff;
+        	border: none;
+        	border-radius: 4px;
+        	padding: 10px 20px;
+        	cursor: pointer;
+        	margin-top: 10px;
+        }
+		.dashboard-txt{
+			text-align: center;
+			font-weight: 900;
+			font-family: sans-serif;
+			color: black;
+		}
+		 .teachers-view{
+			width: 100%;
+		}
+		#noSubChoose{
+			text-align: center;
+			font-family: sans-serif;
+			font-weight: 300;
+			color: red;
+			animation: justTurn 5s linear infinite;
+			font-size: 45px;
+			font-style: oblique;
+		}
+		ul li{
+			text-decoration: none;
+			list-style: none;
+			font-weight: bold;
+			font-family: Bahnschrift;
+			position: relative;
+			right: 10%;
+		}
+		.stats{
+			background: rgba(189, 183, 107, 0.393);
+			padding: 5px;
+			margin: 10px;
+			width: 98%;
+			height: 20%;
+			margin-left: -2px;
+			border-radius: 10px;
+		}
+		.statHeader{
+			color: black;
+			font-family: Bahnschrift;
+		}
+		.week{
+			padding-left: 20px;
+		}
+		.week span{
+			border: 2px solid red;
+			border-radius: 120%;
+			padding: 5px;
+			margin: 4px;
+			background-color: red;
+			font-weight: 600;
+			color: #fff;
+			font-family: Bahnschrift;
+			animation: invert 10s linear infinite;
+		}
+		.quickTools{
+			width: 98%;
+			border-radius: 10px;
+			height: 30%;
+			overflow-x: hidden;
+			overflow-y: auto;
+			margin: 10px;
+			padding-left: 10px;
+			padding-right: 10px;
+			padding-bottom: 10px;
+			background: rgba(189, 183, 107, 0.393);
+			margin-left: -2px;
+		}
+		.qTHeader{
+			color: black;
+			font-family: Bahnschrift;
+			margin: 10px;
+		}
+		.nightMode img, .about img, .contacts img{
+			height: 30px;
+			width: 30px;
+			margin: 25px;
+		}
+		.qtImg{
+			background: rgba(189, 183, 107, 0.407);
+			margin: 5px;
+			border-radius: 10px;
+		}
+		#def, #defNM{
+			font-weight: 500;
+			font-family: Bahnschrift;
+			position: relative;
+			bottom: 35px;
+		}
+		.submitAssign{
+			position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    display: none;
+		    z-index: 100000000;
+		    height: 100%;
+		    background-color: rgba(0, 0, 0, 0.7);
+		}
+		.submitAssign .content{
+			position: absolute;
+		    z-index: 100000000;
+		    top: 50%;
+		    height: 90%;
+		    left: 50%;
+		    transform: translate(-50%, -50%);
+		    background-color: #fff;
+		    padding: 20px;
+		    border-radius: 5px;
+		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+		    text-align: center;
+			border-radius: 10px;
+			box-sizing: border-box;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+		.submitAssign .back-btn{
+			position: absolute;
+		    top: 10px;
+		    right: 10px;
+		    font-size: 20px;
+		    cursor: pointer;
+
+		}
+		.submitAssign.active .overlay{
+			display: block;
+			display: block;
+		}
+		.submitAssign.active .content{
+			transition: all 300ms ease-in;
+			transform: translate(-50%, -50%) scale(1);
+		}
+		#input_Name, #input_Time, #input_Date, #input_Email, #accessCode{
+			width: 250px;
+			height: 40px;
+			border: 0;
+			margin: 10px 0;
+			border-radius: 20px;
+			padding: 10px;
+			background: #f5f5f5;
+			outline: none;
+		}
+		#submitBtn{
+			background-color: var(--button-bg);
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			padding: 10px 20px;
+			cursor: pointer;
+			margin-top: 10px;
+			transition: 2s;
+		}
+		#submitBtn:hover{
+			background: var(--secondary-color);
+
+		}
+		.image-preview{
+			width: 300px;
+			min-height: 100px;
+			border: 2px solid #000000;
+			margin-top: 15px;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: bold;
+			color: #cccccc;
+			background: #f5f5f5;
+		}
+		.image-preview__image{
+			display: none;
+			width: 100%;
+		}
+		#inpFile{
+			width: fit-content;
+			text-align: center;
+			font-family: sans-serif;
+			border: hidden;
+			color: white;
+		}
+        .receipt{
+            border: 2px solid black;
+            text-align: center;
+            padding: 5px;
+            font-weight: 800;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(to left, #687a8587, #81696998);
+            border-radius: 8px;
+            width: 100%;
+            display: none;
+        }
+        #recIntro{
+            font-size: 20px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: darkslategrey;
+        }
+        #issuedTo, #issuedFrom, #issuedOn, #issuedBy, #issuedToSub{
+            margin: 5px;
+            font-size: 19px;
+        }
+        #issuedOn, #issuedBy {
+            font-size: 19px;
+        }
+        .rating img{
+            height: 30px;
+            width: 30px;
+        }
+        .rating span{
+            font-size: 25px;
+        }
+        .rating{
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+        #footer{
+            border: 2px solid black;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            border-radius: 5px;
+        }
+        #fetched{
+        	padding: 2px;
+        	border-radius: 10px;
+        	background: #f5f5f5;
+        	width: 90%;
+        }
+        #fetched img{
+        	width: 90%;
+        	height: 70%;
+        }
+        .new-community-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(0.7rem);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .community-modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 40px;
+            background-color: var(--app-container);
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            width: 80%;
+        }
+
+        .cm-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .cm-modal-button {
+            background-color: var(--button-bg);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .cm-modal-button:hover {
+            background-color: var(--link-color-hover);
+        }
+        #calculatorModal{
+        	display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(0.7rem);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .calculator {
+          padding: 20px;
+          -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+          position: fixed;
+	      top: 50%;
+	      left: 50%;
+	      font-family: monospace;
+	      transform: translate(-50%, -50%);
+	      border-radius: 40px;
+	      background-color: var(--app-container);
+	      padding: 20px;
+	      text-align: center;
+	      border: 1px solid #ccc;
+	      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	      z-index: 1;
+	      overflow-y: auto;
+	      overflow-x: hidden;
+	      width: 80%;
+	      height: 80vh;
+/*	      animation: cgCl 10s infinite linear;*/
+        }
+
+        .input {
+          border: 1px solid #ddd;
+          border-radius: 10pc;
+          height: 60px;
+          padding-right: 15px;
+          padding-top: 10px;
+          text-align: right;
+          margin-right: 6px;
+          font-size: 2.5rem;
+          overflow-x: auto;
+          transition: all .2s ease-in-out;
+        }
+
+        .input:hover {
+          border: 1px solid #bbb;
+          -webkit-box-shadow: inset 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: inset 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .buttons {}
+
+        .operators {}
+
+        .operators div {
+          display: inline-block;
+          border: 1px solid #bbb;
+          border-radius: 10pc;
+          width: 80px;
+          text-align: center;
+          padding: 10px;
+          margin: 20px 4px 10px 0;
+          font-size: 30px;
+          cursor: pointer;
+          background-color: #ddd;
+          transition: border-color .2s ease-in-out, background-color .2s, box-shadow .2s;
+        }
+
+        .operators div:hover {
+          background-color: #ddd;
+          -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+          border-color: #aaa;
+        }
+
+        .operators div:active {
+          font-weight: bold;
+        }
+
+        .leftPanel {
+          display: inline-block;
+        }
+
+        .numbers div {
+          display: grid;
+          grid-template-columns: auto auto;
+          border: 1px solid #ddd;
+          border-radius: 10pc;
+          font-size: 30px;
+          width: 80px;
+          text-align: center;
+          padding: 10px;
+          margin: 10px 4px 10px 0;
+          cursor: pointer;
+          background-color: #f9f9f9;
+          transition: border-color .2s ease-in-out, background-color .2s, box-shadow .2s;
+        }
+
+        .numbers div:hover {
+          background-color: #f1f1f1;
+          -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+          border-color: #bbb;
+        }
+
+        .numbers div:active {
+          font-weight: bold;
+        }
+
+        div.equal {
+          display: inline-block;
+          border: 1px solid #3079ED;
+          border-radius: 10pc;
+          width: 100%;
+          height: 50px;
+          text-align: center;
+          padding-top: 5px;
+/*          padding: 127px 10px;*/
+          margin: 10px 6px 10px 0;
+          vertical-align: top;
+          font-size: 30px;
+          cursor: pointer;
+          color: #FFF;
+          background-color: #4d90fe;
+          transition: all .2s ease-in-out;
+        }
+
+        div.equal:hover {
+          background-color: #307CF9;
+          -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+          border-color: #1857BB;
+        }
+
+        div.equal:active {
+          font-weight: bold;
+        }
+        #closeCalc{
+        	text-align: right;
+        	padding: 10px;
+        	font-size: 30px;
+        }
+        .school-name{
+          padding: 20px;
+          margin: 20px;
+          display: flex;
+        align-items: center;
+          border-radius: 20px;
+        }
+        .school-name strong{
+          padding: 10px;
+          color: #ffca00;
+          background: #ffb3004a;
+          border-radius: 10px;
+        }
+
+	</style>
+</head>
+<body>
+
+	<!--Modals-->
+
+	<!-- Calulator Modal -->
+	<div id="calculatorModal">
+		  <div class="calculator cal-content">
+		  	<div class="back-btn" id="closeCalc">&times;</div>
+		  	<div class="input" id="input"></div>
+		  	<div class="buttons">
+		  	  <div class="operators">
+		  	    <div>+</div>
+		  	    <div>-</div>
+		  	    <div>&times;</div>
+		  	    <div>&divide;</div>
+		  	  </div>
+		  	  <div class="leftPanel">
+		  	    <div class="numbers">
+		  	      <div>7</div>
+		  	      <div>8</div>
+		  	      <div>9</div>
+		  	    </div>
+		  	    <div class="numbers">
+		  	      <div>4</div>
+		  	      <div>5</div>
+		  	      <div>6</div>
+		  	    </div>
+		  	    <div class="numbers">
+		  	      <div>1</div>
+		  	      <div>2</div>
+		  	      <div>3</div>
+		  	    </div>
+		  	    <div class="numbers">
+		  	      <div>0</div>
+		  	      <div>.</div>
+		  	      <div id="clear">C</div>
+		  	    </div>
+		  	  </div>
+		  	  <div class="equal" id="result">=</div>
+		  	</div>
+		  </div>
+	</div>
+
+	<div class="new-community-modal" id="communityModal">
+	  <div class="community-modal-content">
+	      <span class="cm-close" id="cm-closeModal2">&times;</span>
+            <h2>Logged in as {{ current_user.name }}</h2>
+            {% if current_user.who == "Student": %}
+                <p style="font-weight: bolder; color: skyblue;">{{ current_user.who }}</p>
+            {% else: %}
+                <p style="font-weight: bolder; color: #ff8f00f0;">{{ current_user.who }}</p>
+            {% endif %}
+            <form action="/updateInfoS" method="POST">
+              <input id="intx" type="text" name="name" value="{{ current_user.name }}">
+              <br>
+              <br>
+              <input id="intx" type="email" name="email" value="{{ current_user.email }}">
+              <p>User Type</p><!-- align="center"-->
+              <select id="intx" name="userType">
+                <option>Student</option>
+              </select>
+              <br>
+              <br>
+              <span class="school-name">School: <strong>{{ pt.name }}</strong></span><br><br><br>
+              <button class="cm-modal-button" type="sumbit" id="cmmodalButton2">Update Info</button>
+
+            </form>
+            <a href="/logout"><button class="cm-modal-button">Logout</button></a>
+	  </div>
+	</div>
+
+	<div class="header" id="headingText">
+        <h1 class="Intro_Text">
+          <span>IPING</span> <strong>PaperShare</strong>
+        </h1>
+        {% if current_user.who == "Student": %}
+            <div class="userInfo" id="UI" style="background: skyblue;">
+              {{ uan }}
+            </div>
+        {% else: %}
+            <div class="userInfo" id="UI" style="background: #ff8f00f0;">
+              {{ uan }}
+            </div>
+        {% endif %}
+
+      </div>
+
+	<div id="welcome">
+
+	</div>
+
+	<div class="dashboard" id="dashBoard">
+		<p class="dashboard-txt" id="sub_Teach">Subjects</p>
+
+
+		<form action="/fetch-assignment" method="POST">
+			<input type="number" name="assCode" id="intx" placeholder="Assignment Code">
+			<button id="fetchBtn" type="submit">Fetch</button>
+		</form>
+
+		{% if fAssignment == "": %}
+			<p>No Assignment yet, try fetching</p>
+
+		{% elif fAssignment == "ocde": %}
+			<p>Oops, Code doesn't exists ⛔</p>
+
+		{% elif fAssignment == "empty": %}
+			<p>Nothing to show 🤷🏾‍♀️</p>
+
+		{% else: %}
+
+			<div id="fetched" class="send-assignment-btn">
+				<h4>{{ fAssignment.name }}</h4>
+				<p>{{ fAssignment.data }}</p>
+				<img src="{{ url_for('views.uploaded_file', filename=fAssignment.image) }}" id="theImg" height="50%" width="70%" alt="{{ fAssignment.name }} Image">
+			</div>
+
+		{% endif %}
+		<marquee direction="up"><span id="noSubChoose"></span></marquee>
+		<div class="about_view"></div>
+	</div>
+
+	<div class="stats" id="statBox" onclick="eveluate()">
+		<div class="statBoard">
+			<h4 class="statHeader" id="ass">Notes</h4>
+			<p></p>Notes would show up here</p>
+		</div>
+	</div>
+
+	<div class="quickTools">
+		<h3 class="qTHeader">Quick Tools</h3>
+		<span class="nightMode">
+			<div class="qtImg" id="nightMode">
+				<img src="{{ url_for('static', filename='media/icons8-night-mode-24.png') }}" alt="NightModeIcon">
+				<span id="defNM">NightMode</span>
+			</div>
+		</span>
+
+		<span class="about">
+			<div class="qtImg" id="about">
+				<img src="{{ url_for('static', filename='media/icons8-about-48.png') }}" alt="aboutIcon">
+				<span id="def">About</span>
+			</div>
+		</span>
+
+		<span class="contacts">
+			<div class="qtImg" id="contact">
+				<img src="{{ url_for('static', filename='media/icons8-calculator-64.png') }}" alt="contIcon">
+				<span id="def">Calculator</span>
+			</div>
+		</span>
+
+	</div>
+
+	<section>
+		<div class="submitAssign" id="submit-1">
+			<div class="content">
+				<div class="back-btn" id="closeModalBtn">< Back</div>
+
+
+				<h2 style="font-family: sans-serif; color: black; font-size: 25px;">Send Assignment</h2>
+				<p id="log"></p>
+
+				<form action="/submit-assignment" method="POST" enctype="multipart/form-data">
+					<input id="input_Name" type="name" name="user_name" value="{{ current_user.name }}" placeholder="Name e.g David John, Jaiye Smith" required><!-- disabled-->
+					<br>
+					<input id="input_Email" type="email" name="email" value="{{ current_user.email }}" placeholder="Email e.g davidjohn123@gmail.com" required><!-- disabled-->
+					<br>
+					<input id="input_Date" value="{{ current_date }}" type="date" name="date" required><!-- disabled-->
+					<br>
+					<input id="input_Time" value="{{ current_time }}" type="time" name="time" required><!-- disabled-->
+					<br>
+					<input type="number" name="numCode" id="accessCode" value="{{ current_code }}" placeholder="Subject Code" required><!-- disabled-->
+					<br>
+					<textarea style="height: 100px; width: 250px; border-radius: 10px; margin: 10px 0; padding: 10px; outline: none; background: #f5f5f5; border: 0;" name="content" placeholder="Your Assignment Goes Here" id="assignmentTxt" required></textarea>
+					<br>
+					<div class="image-preview" id="imagePreview">
+						<img src="" alt="Item Preview not available" class="image-preview__image" id="assignImage">
+						<span class="image-preview__default-text">Select Item</span>
+					</div>
+					<input type="file" name="inpFile" id="inpFile">
+					<br>
+					<button id="submitBtn" type="submit">Submit</button>
+				</form>
+
+			</div>
+
+
+		</div>
+
+	</section>
+    <!-- Receipt -->
+    <div class="receipt" id="receiptBox">
+        <p id="recIntro">R.O.A.S Certificate of a Submitted Assignment</p>
+        <span>Name: </span><span id="issuedTo"></span>
+        <br>
+        <hr>
+        <span>Class: </span><span id="issuedFrom"></span>
+        <br>
+        <hr>
+        <span>Date: </span><span id="issuedOn"></span>
+        <br>
+        <hr>
+        <span>Subject: </span><span id="issuedToSub"></span>
+        <br>
+        <hr>
+        <span>Time: </span><span id="issuedBy"></span>
+        <br>
+        <hr>
+        <div class="rating">
+            <img src="todo.png" alt="good" id="img"><span> Success</span>
+        </div>
+
+        <br>
+
+        <span id="footer">| &copy; R.O.A.S | All Rights Reserved. |</span>
+    </div>
+
+
+
+
+<script type="text/javascript">
+	const dgmodal = document.getElementById('submit-1');
+    const dialogButton = document.querySelector('.send-assignment-btn');
+    const dgcloseModal = document.querySelector('#closeModalBtn');
+
+    // Function to open the modal
+    function openDGModal() {
+        dgmodal.style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeDGModal() {
+        dgmodal.style.display = 'none';
+
+    }
+
+    const cmmodal = document.getElementById('communityModal');
+    const newCommunityButton = document.querySelector('#UI');
+    const cmcloseModal = document.querySelector('#cm-closeModal2');
+
+    // Function to open the modal
+    function openCMModal() {
+        cmmodal.style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeCMModal() {
+        cmmodal.style.display = 'none';
+    }
+
+    // Event listeners
+    newCommunityButton.addEventListener('click', openCMModal); // Change this to open the modal
+    cmcloseModal.addEventListener('click', closeCMModal);
+
+    // Optionally, you can trigger the modal to open by calling openModal() in your JavaScript when needed.
+
+    // Event listeners
+    dialogButton.addEventListener('click', openDGModal); // Change this to open the modal
+    dgcloseModal.addEventListener('click', closeDGModal);
+
+    const inpFile = document.getElementById('inpFile');
+    const previewContainer = document.getElementById('imagePreview');
+    const previewImage = previewContainer.querySelector('.image-preview__image');
+    const previewDefaultText = previewContainer.querySelector('.image-preview__default-text');
+
+    inpFile.addEventListener("change", function() {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            previewDefaultText.style.display = "none";
+            previewImage.style.display = "block";
+
+            reader.addEventListener("load", function(){
+                previewImage.setAttribute("src", this.result);
+            });
+
+                reader.readAsDataURL(file);
+            } else {
+                previewDefaultText.style.display = null;
+                previewImage.style.display = null;
+                previewImage.setAttribute("src", "");
+            }
+        });
+
+
+</script>
+<script type="text/javascript">
+
+	const calculatorModal = document.querySelector('#calculatorModal');
+    const openCalc = document.querySelector('.contacts');
+    const closeCalc = document.querySelector('#closeCalc');
+
+    // Function to open the modal
+    function openCMLModal() {
+        calculatorModal.style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeCMLModal() {
+        calculatorModal.style.display = 'none';
+    }
+
+    // Event listeners
+    openCalc.addEventListener('click', openCMLModal); // Change this to open the modal
+    closeCalc.addEventListener('click', closeCMLModal);
+
+	"use strict";
+
+	var input = document.getElementById('input'), // input/output button
+	  number = document.querySelectorAll('.numbers div'), // number buttons
+	  operator = document.querySelectorAll('.operators div'), // operator buttons
+	  result = document.getElementById('result'), // equal button
+	  clear = document.getElementById('clear'), // clear button
+	  resultDisplayed = false; // flag to keep an eye on what output is displayed
+
+	// adding click handlers to number buttons
+	for (var i = 0; i < number.length; i++) {
+	  number[i].addEventListener("click", function(e) {
+
+	    // storing current input string and its last character in variables - used later
+	    var currentString = input.innerHTML;
+	    var lastChar = currentString[currentString.length - 1];
+
+	    // if result is not diplayed, just keep adding
+	    if (resultDisplayed === false) {
+	      input.innerHTML += e.target.innerHTML;
+	    } else if (resultDisplayed === true && lastChar === "+" || lastChar === "-" || lastChar === "×" || lastChar === "÷") {
+	      // if result is currently displayed and user pressed an operator
+	      // we need to keep on adding to the string for next operation
+	      resultDisplayed = false;
+	      input.innerHTML += e.target.innerHTML;
+	    } else {
+	      // if result is currently displayed and user pressed a number
+	      // we need clear the input string and add the new input to start the new opration
+	      resultDisplayed = false;
+	      input.innerHTML = "";
+	      input.innerHTML += e.target.innerHTML;
+	    }
+
+	  });
+	}
+
+	// adding click handlers to number buttons
+	for (var i = 0; i < operator.length; i++) {
+	  operator[i].addEventListener("click", function(e) {
+
+	    // storing current input string and its last character in variables - used later
+	    var currentString = input.innerHTML;
+	    var lastChar = currentString[currentString.length - 1];
+
+	    // if last character entered is an operator, replace it with the currently pressed one
+	    if (lastChar === "+" || lastChar === "-" || lastChar === "×" || lastChar === "÷") {
+	      var newString = currentString.substring(0, currentString.length - 1) + e.target.innerHTML;
+	      input.innerHTML = newString;
+	    } else if (currentString.length == 0) {
+	      // if first key pressed is an opearator, don't do anything
+	      console.log("enter a number first");
+	    } else {
+	      // else just add the operator pressed to the input
+	      input.innerHTML += e.target.innerHTML;
+	    }
+
+	  });
+	}
+
+	// on click of 'equal' button
+	result.addEventListener("click", function() {
+
+	  // this is the string that we will be processing eg. -10+26+33-56*34/23
+	  var inputString = input.innerHTML;
+
+	  // forming an array of numbers. eg for above string it will be: numbers = ["10", "26", "33", "56", "34", "23"]
+	  var numbers = inputString.split(/\+|\-|\×|\÷/g);
+
+	  // forming an array of operators. for above string it will be: operators = ["+", "+", "-", "*", "/"]
+	  // first we replace all the numbers and dot with empty string and then split
+	  var operators = inputString.replace(/[0-9]|\./g, "").split("");
+
+	  console.log(inputString);
+	  console.log(operators);
+	  console.log(numbers);
+	  console.log("----------------------------");
+
+	  // now we are looping through the array and doing one operation at a time.
+	  // first divide, then multiply, then subtraction and then addition
+	  // as we move we are alterning the original numbers and operators array
+	  // the final element remaining in the array will be the output
+
+	  var divide = operators.indexOf("÷");
+	  while (divide != -1) {
+	    numbers.splice(divide, 2, numbers[divide] / numbers[divide + 1]);
+	    operators.splice(divide, 1);
+	    divide = operators.indexOf("÷");
+	  }
+
+	  var multiply = operators.indexOf("×");
+	  while (multiply != -1) {
+	    numbers.splice(multiply, 2, numbers[multiply] * numbers[multiply + 1]);
+	    operators.splice(multiply, 1);
+	    multiply = operators.indexOf("×");
+	  }
+
+	  var subtract = operators.indexOf("-");
+	  while (subtract != -1) {
+	    numbers.splice(subtract, 2, numbers[subtract] - numbers[subtract + 1]);
+	    operators.splice(subtract, 1);
+	    subtract = operators.indexOf("-");
+	  }
+
+	  var add = operators.indexOf("+");
+	  while (add != -1) {
+	    // using parseFloat is necessary, otherwise it will result in string concatenation :)
+	    numbers.splice(add, 2, parseFloat(numbers[add]) + parseFloat(numbers[add + 1]));
+	    operators.splice(add, 1);
+	    add = operators.indexOf("+");
+	  }
+
+	  input.innerHTML = numbers[0]; // displaying the output
+
+	  resultDisplayed = true; // turning flag if result is displayed
+	});
+
+	// clearing the input on press of clear
+	clear.addEventListener("click", function() {
+	  input.innerHTML = "";
+	})
+</script>
+<!--<script src="https://://smtpjs.com/v3/smtp.js"></script>-->
+</body>
+</html>
+
+{% endblock %}

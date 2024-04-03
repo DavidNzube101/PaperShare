@@ -1,0 +1,350 @@
+
+{% extends 'base.html' %}
+{% block title %} {{ current_user.name }} | Admin {% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		html{
+			background: white;
+
+		}
+		body{
+			font-family: "Segoe UI";
+			height: 100vh;
+			width: 100vw;
+		}
+		main{
+			width: 100%;
+		}
+		.notify{
+			display: grid;
+			place-items: center;
+			border: 1px solid #1f1c24;
+			height: 500px;
+			width: 100%;
+			padding: 20px;
+			overflow-x: hidden;
+			overflow-y: auto;
+			margin: 10px;
+		}
+		.management{
+			display: grid;
+			grid-template-columns: auto auto;
+			place-items: left;
+			border: 1px solid #1f1c24;
+			height: 400px;
+			width: 100%;
+			padding: 20px;
+			text-align: left;
+			overflow-x: hidden;
+			overflow-y: auto;
+			margin: 10px;
+		}
+		.management .teachers, .management .students{
+			display: grid;
+			place-items: center;
+			border: 1px solid #1f1c24;
+			height: 500px;
+/*			width: 100%;*/
+			padding: 10px;
+			overflow-x: auto;
+			overflow-y: auto;
+			margin: 10px;
+/*			text-align: left;*/
+		}
+		.styled-div-list{
+			display: grid;
+			grid-template-columns: auto auto auto;
+			background: #dce9e9ba;
+			margin: 5px;
+			width: 320px;
+			border-radius: 10px;
+		}
+		.styled-div-list .name-tag, .styled-div-list span, .styled-div-list .actions{
+			margin: 10px;
+		}
+		.styled-div-list .name-tag{
+			display: grid;
+			place-items: center;
+			background: #ff540069;
+			padding: 5px;
+			border-radius: 10pc;
+		}
+		.styled-div-list span{
+			font-weight: 900;
+			width: 100px;
+		}
+		.styled-div-list .actions .remove, .styled-div-list .actions .view{
+			width: 60px;
+			text-align: center;
+			outline: none;
+			border: 0;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: 0.6s;
+			padding: 5px;
+			background: #54ff004a;
+			color: #1b8b15;
+		}
+		.styled-div-list .actions .remove:hover, .styled-div-list .actions .view:hover{
+			transform: translateY(-5px);
+		}
+		.styled-div-list .actions .remove{
+			background: #ff00004d;
+			color: #af1f1f;
+		}
+		ul {
+		    list-style-type: none;
+		    padding: 0;
+		    margin: 10px;
+		    width: 80%;
+		    max-width: 400px;
+		    background-color: #fff;
+		    border-radius: 8px;
+		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		    align-items: center;
+		}
+
+		li {
+		    padding: 16px;
+		    border-bottom: 1px solid #ddd;
+		    color: #333;
+		    text-align: left;
+		}
+
+		li:last-child {
+		    border-bottom: none;
+		}
+
+		.act-buttons{
+		    display: grid;
+		    grid-template-columns: auto auto;
+/*		    border-bottom: 2px solid #808080a8;*/
+		}
+		.accept, .reject{
+		    color: #fff;
+		    border: none;
+		    border-radius: 4px;
+		    padding: 10px 20px;
+		    cursor: pointer;
+		    margin: 10px;
+		}
+		.stat{
+			display: flex;
+			align-items: center;
+			width: 100%;
+			justify-content: space-between;
+			overflow-y: hidden;
+			overflow-x: auto;
+		}
+		.stat-box{
+			border: 1px solid #1f1c24;
+			height: 200px;
+			width: 230px;
+			padding: 20px;
+			margin: 10px;
+		}
+		.total{
+			display: grid;
+			grid-template-columns: auto auto;
+		}
+		.box1, .box2{
+			margin: 10px;
+		}
+		.schoolInfo{
+			display: grid;
+			place-items: left;
+			border: 1px solid #1f1c24;
+			height: 400px;
+			width: 100%;
+			padding: 20px;
+			text-align: left;
+			overflow-x: hidden;
+			overflow-y: auto;
+			margin: 10px;
+		}
+		.cm-modal-button {
+		    background-color: #1f1c24;
+		    color: #fff;
+		    border: none;
+		    border-radius: 4px;
+		    padding: 10px 20px;
+		    cursor: pointer;
+		    margin-top: 10px;
+		}
+		.cm-modal-button:hover {
+		    background-color: #c3cff4;
+		}
+	</style>
+</head>
+<body>
+
+	<h1 align="center"><strong>Admin</strong> <wd>{{ current_user.name }}</wd></h1>
+	<br><br>
+
+	<h2>Notifications</h2>
+
+	<main>
+		
+		<div class="notify">
+
+			{% if ntf: %}
+			    {% for notification in ntf %}
+			        {% if notification.adStatus == "Handled": %}
+			            {{ pass }}
+			        {% else: %}
+			            <h2>Requests</h2>
+			            <li>{{ notification.content }}</li>
+			            <p>{{ notification.timestamp }}</p>
+			            <div class="act-buttons">
+			                <form action="/ad-applicant/{{ notification.sender_id }}" method="POST">
+			                    <input type="hidden" name="action" value="Accept">
+			                    <button type="submit" style="background: #28ff11b0;" class="accept">Accept</button>
+			                </form>
+			                <form action="/ad-applicant/{{ notification.sender_id }}" method="POST">
+			                    <input type="hidden" name="action" value="Decline">
+			                    <button style="background: #ff1111b0;" class="reject">Decline</button>
+			                </form>
+			            </div>
+			            <p>•</p>
+			        {% endif %}
+			    {% endfor %}
+			{% else: %}
+			    <p>No Notifications for now!</p>
+			{% endif %}
+
+		</div>
+
+		<h2>School Statistics</h2>
+
+		<div class="stat">
+			<div class="empty">
+				&nbsp;
+			</div>
+			<div class="stat-box planStatus">
+				<h3>{{ current_user.PlanType }}</h3>
+				<p>Plan Type</p>
+			</div>
+			<div class="stat-box total">
+				<div class="box1">
+					<h3>{{ number_of_members['teachers'] }}</h3>
+					<p>Total number of teachers</p>
+				</div>
+				<div class="box2">
+					<h3>{{ number_of_members['students'] }}</h3>
+					<p>Total number of students</p>
+				</div>
+			</div>
+			<div class="stat-box remainingSlots">
+				<h3>{{ srm }}</h3>
+				<p>Remaining Slots available</p>
+				{% if srm == 0: %}
+					<i>(You can't accept anymore participants!)</i>
+
+				{% elif srm == 1: %}
+					<i>(You have just one slot left!)</i>
+
+				{% else: %}
+					
+				{% endif %}
+				
+			</div>
+			<div class="stat-box">
+				<h3>{{ number_of_assignments }}</h3>
+				<p>Total number of assignments created</p>
+				<i>({{ number_of_assignments}} of 10, {{ 10 - number_of_assignments}} remaining)</i>
+			</div>
+			
+		</div>
+
+		<h2>Manage School</h2>
+
+		<div class="management">
+			<div class="teachers">
+				<strong>Manage Teachers</strong>
+				<div class="teacher_list">
+
+					{% if teachers: %}
+						{% for t in teachers: %}
+							<form action="/tosa" method="POST">
+							<input type="hidden" name="sID" value="{{ t.id }}">
+
+								<div class="styled-div-list">
+									<div class="name-tag">{{ uanf(t.name) }}</div>
+
+									<span>{{ t.name }}</span>
+									<div class="actions">
+										<!-- <button type="submit" class="view">View</button> -->
+										
+										<button type="button" class="remove"><a style="color: #af1f1f; text-decoration: none;" href="/remove-student/{{ t.id }}">Remove</a></button>
+									</div>
+								</div>
+							</form>
+						{% endfor %}
+					{% else: %}
+						<p>No Teachers yet!</p>
+
+					{% endif %}
+
+				</div>
+			</div>
+
+			<div class="students">
+				<strong>Manage Students</strong>
+				<div class="student_list">
+					
+					{% if stus: %}
+						{% for s in stus: %}
+							<form action="/tosa" method="POST">
+							<input type="hidden" name="sID" value="{{ s.id }}">
+
+								<div class="styled-div-list">
+									<div class="name-tag">{{ uanf(s.name) }}</div>
+
+									<span>{{ s.name }}</span>
+									<div class="actions">
+										<button type="submit" class="view">View</button>
+										
+										<button type="button" class="remove"><a style="color: #af1f1f; text-decoration: none;" href="/remove-student/{{ s.id }}">Remove</a></button>
+									</div>
+								</div>
+							</form>
+						{% endfor %}
+					{% else: %}
+						<p>No Students yet!</p>
+
+					{% endif %}
+					
+				</div>
+			</div>
+		</div>
+
+		<h2>School Details</h2>
+
+		<div class="schoolInfo">
+			<span><strong>Name:</strong><i> {{ sl.name }}</i></span>
+			<br>
+			<span><strong>Reg. Email:</strong><i> {{ sl.email }}</i></span>
+			<br>
+			<span><strong>Description:</strong><i> {{ sl.description }}</i></span>
+			<br>
+			<span><strong>School Link:</strong><i> {{ sl.link }}</i></span>
+			<br>
+			<br>
+			<a href="/logout"><button class="cm-modal-button">Logout</button></a>
+		</div>
+
+	</main>
+
+
+	
+
+</body>
+</html>
+
+{% endblock %}

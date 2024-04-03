@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %} PaperShare | Plans {% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:wght@300&display=swap" rel="stylesheet">
+
+	<style type="text/css">
+		.plans{
+		  display: grid;
+		  place-items: center;
+		}
+		.small-pkg, .large-pkg, .premium-pkg{
+		  background: #cccdd3;
+		  border-radius: 20px;
+		  margin: 10px;
+		  font-family: 'Cormorant Infant', serif;
+		  /*display: grid;
+		  grid-template-columns: auto auto;*/
+		  width: 80%;
+		  height: 410px;
+		  padding: 10px;
+		}
+		.small-pkg .left, .large-pkg .left, .premium-pkg .left{
+			float: left;
+			width: 90%;
+
+			z-index: 100;
+		}
+		.small-pkg .left p, .large-pkg .left p, .premium-pkg .left p{
+			font-size: 14px;
+		}
+		.small-pkg .left p de, .large-pkg .left p de, .premium-pkg .left p de{
+			background: #f5f5f5;
+			padding: 2px;
+			border-radius: 5px;
+		}
+		.small-pkg .right, .large-pkg .right, .premium-pkg .right{
+			float: right;
+			display: grid;
+			place-items: center;
+		}
+		.small-pkg .right p, .large-pkg .right p, .premium-pkg .right p{
+			font-size: 80px;
+			font-weight: 900;
+			margin-bottom: 10px;
+/*			animation: hov 10s infinite linear;*/
+/*			transform: rotate(270deg);*/
+		}
+		.small-pkg .right p{
+			transform: translateY(-40px);
+		}
+		.large-pkg .right p{
+			transform: translateY(-80px);
+		}
+		.premium-pkg .right p{
+			transform: translateY(-120px);
+		}
+		.small-pkg h1, .large-pkg h1, .premium-pkg h1{
+		  font-weight: 800;
+		}
+		.small-pkg{
+		  background: linear-gradient(to top left, #0fe9bca8, #90ff4ed6 );
+		}
+		.large-pkg{
+		  background: linear-gradient(to top left, #0f4de994, #e14effd6 );
+		}
+		.premium-pkg{
+		  background: linear-gradient(to top left, #fff100, #ff8908d1 );
+		}
+		.header{
+			display: grid;
+			grid-template-columns: auto auto;
+		}
+		.header svg{
+			border-radius: 20pc;
+			transition: 1.2s;
+			cursor: pointer;
+		}
+		.header svg:hover{
+			background: #cfccd3;
+		}
+
+		.stats{
+			display: grid;
+			grid-template-columns: auto auto auto;
+			text-align: center;
+		}
+		button{
+			background-color: #1f1c24;
+		    color: #fff;
+		    border: none;
+		    border-radius: 4px;
+		    padding: 10px 20px;
+		    cursor: pointer;
+		    margin-top: 10px;
+		}
+		
+	</style>
+</head>
+<body>
+	<!-- <div class="header">
+		<a href="/homeT">
+			<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+		  <path d="M38.04,23.69H10.11l6.68-6.68a1,1,0,0,0-1.41-1.41L6.36,24.35a1,1,0,0,0,0,1.41L15.42,34.65a1,1,0,0,0,1.41-1.41l-6.68-6.68H38.04a1,1,0,0,0,0-2Z"/>
+		</a>
+	  <h1>Our Plans</h1>
+
+	</svg>
+
+	</div> -->
+
+	<div class="plans">
+		<!-- Ghanaian Cedi is ₵ [&#x20B5;]-->
+		<!-- Nigerian Naira is ₦ [&#x20A6;] -->
+		<div class="small-pkg" style="background: #808080d4;">
+	      <div class="left">
+	      	<h1>Trial</h1>
+	      	<p>Our trial package gives teachers and instructors the chance to peak into the endless opportunities PaperShare has to offer when it comes to assesment engagement with their students. Trial offers only 3 assignments and is availale to all new users for 10 days</p>
+
+			<p><strong>User Range</strong>:	<de>0 - 5</de></p>
+
+	      	<button><a style="color: white; text-decoration: none;" href="/homeA">Continue &RightArrow;</a></button>
+
+	      </div>
+	      <div class="right">
+	      	<p>$0</p>
+	      </div>
+	    </div>
+
+	    <div class="small-pkg">
+	      <div class="left">
+	      	<h1>Mini</h1>
+	      	<p>Our compact package provides teachers and instructors with a chance to engage seamlessly with their students. While the features may be limited, this plan stands out as the optimal choice for startups.</p>
+
+			<p><strong>User Range</strong>:	<de>0 - 20</de></p>
+
+	      	<button>Pay Now &RightArrow;</button>
+
+	      </div>
+	      <div class="right">
+	      	<p>$19.99</p>
+	      </div>
+	    </div>
+	    <div class="large-pkg">
+	      <div class="left">
+	      	<h1>Large</h1>
+	      	<p>The Large Package, positioned as the bridge between our Premium and Small packages, provides students and teachers with an enriched assessment experience. Students subscribed to the <i>Large package</i> gain access to valuable tools, including a basic calculator, a dictionary, and a sketch/doodle pad
+	      	<p><strong>User Range</strong>: <de>0 - 50</de></p>
+	      	<button>Pay Now &RightArrow;</button>
+	
+	      </div>
+	      <div class="right">
+	      	<p>$49.99</p>
+	      </div>
+	    </div>
+	    <div class="premium-pkg">
+	      <div class="left">
+	      	<h1>Premium</h1>
+	      	<p>The Premium Package stands as our most exclusive offering to date, presenting both teachers and students with an unparalleled assessment experience. <i>Premium</i> Teachers enjoy exclusive tools like AutoGrader ™, along with other valuable metrics for tracking student growth. <i>Premium</i> Students are not overlooked; they gain access to NoteByte ™, an enhanced calculator, an advanced dictionary, and a wealth of useful learning resources.</p>
+	      	<p><strong>User Range</strong>: <de>Unlimited</de></p>
+	      	<button>Pay Now &RightArrow;</button>
+
+	      </div>
+	      <div class="right">
+	      	<p>$100</p>
+	      </div>
+	    </div>
+	</div>
+</body>
+</html>
+
+{% endblock %}

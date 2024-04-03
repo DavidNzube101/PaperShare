@@ -1,0 +1,585 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ current_user.name }} | PaperShare {% endblock %}
+{% block content %}
+
+  <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: #eee !important;
+    }
+
+    header{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .wrapper {
+      margin-top: 80px;
+      margin-bottom: 80px;
+    }
+
+    .form-signin {
+      max-width: 380px;
+      padding: 15px 35px 45px;
+      margin: 0 auto;
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+      margin-bottom: 30px;
+    }
+    .form-signin .checkbox {
+      font-weight: normal;
+    }
+    .form-signin .form-control {
+      position: relative;
+      font-size: 16px;
+      height: auto;
+      padding: 10px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    .form-signin .form-control:focus {
+      z-index: 2;
+    }
+    .form-signin input[type=text] {
+      margin-bottom: -1px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .form-signin input[type=password] {
+      margin-bottom: 20px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .jBtn{
+        background-color: #1f1c24;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    </style>
+</head>
+<body>
+
+  <header>
+    <div class="time">{{ current_time }}</div>
+    <div class="date">{{ current_date }}</div>
+  </header>
+  <div class="wrapper">
+    <form action="/gate" method="POST" class="form-signin">
+      <h2 class="form-signin-heading">Paste the School link from your School Admin</h2>
+      {% if joinedStat == "Pending" %}
+        <input type="address" class="form-control" disabled name="code" placeholder="School Link" required="" autofocus="" / autocomplete>
+        <button class="jBtn" style="cursor: not-allowed;" type="button">Join</button>
+
+        <hr>
+
+        Status: <span style="color: #ff8f00f0;">Pending</span>
+        <br>
+        <button type="button" class="jBtn" onclick="reloadPage()">Refresh Status</button>
+      {% elif joinedStat == "Joined" %}
+        Status: <span style="color: #00ff22cf;">Accepted</span>
+        <br>
+        <a href="/home">
+            <button class="jBtn" type="button">Proceed to Dashboard</button>
+        </a>
+      {% else: %}
+        <input type="text" class="form-control" name="code" placeholder="School Link" required="" autofocus="" />
+        <button class="jBtn" type="submit">Join</button>
+
+        <hr>
+
+        Status: <span style="color: #ff0000e8;">{{ joinedStat }}</span>
+        <br>
+        <button type="button" class="jBtn" onclick="reloadPage()">Refresh Status</button>
+      {% endif %}
+      <br>
+      <br>
+      <br>
+      <a style="text-decoration: underline;" href="/blog">Learn More</a>&nbsp;•&nbsp;<a style="text-decoration: underline;" href="/logout">Logout</a>
+    </form>
+    <p align="center">&copy; 2023 IPING.</p>
+  </div>
+
+<script type="text/javascript">
+  function reloadPage() {
+    window.location.href = window.location.href;
+  }
+</script>
+</body>
+</html>
+
+{% endblock %}
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div class="wrapper">
+    <form action="/gate" method="POST" class="form-signin">       
+      <h2 class="form-signin-heading">Paste the School link from your teacher</h2>
+      <input type="text" class="form-control" name="code" placeholder="School Link" required="" autofocus="" />
+      <button class="jBtn" type="submit">Join</button>   
+    </form>
+  </div>
+</body>
+</html> -->
+
+
+
+<!-- admin_panel_notifications.html -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 80%;
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        li {
+            padding: 16px;
+            border-bottom: 1px solid #ddd;
+            color: #333;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        @media only screen and (max-width: 600px) {
+            ul {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Notifications</h2>
+    <ul>
+        {% for notification in notifications %}
+            <li>{{ notification.content }} - {{ notification.timestamp }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+ -->
+
+
+
+
+
+
+
+
+ <!-- 
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+
+  <title>CodePen - Dark Mode Notifications</title>
+
+    <link rel="canonical" href="https://codepen.io/gabriellewee/pen/MXyKLW">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  
+  
+<style>
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+::-moz-selection {
+  background: none;
+}
+
+::selection {
+  background: none;
+}
+
+body, html {
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  background: #151F33;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media screen and (min-height: 480px) {
+  body {
+    align-items: center;
+    align-content: center;
+  }
+}
+.before, .after {
+  will-change: opacity;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.before {
+  z-index: -1;
+  background: #151F33 url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/mojave-night.jpg") no-repeat center center/cover;
+}
+
+.after {
+  z-index: -2;
+  background: #B27247 url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/mojave-day.jpg") no-repeat center center/cover;
+}
+
+main {
+  opacity: 0;
+  will-change: opacity;
+  width: 100%;
+  max-width: 400px;
+  padding: 8px;
+}
+main .before, main .after {
+  position: fixed;
+}
+
+ul {
+  opacity: 0;
+  will-change: opacity, transform;
+  perspective: 800px;
+  margin-bottom: 16px;
+}
+ul li {
+  position: relative;
+  padding: 8px;
+}
+ul li:not(:first-child) {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+ul li:not(:first-child) .notification .before, ul li:not(:first-child) .notification .after {
+  filter: blur(16px);
+}
+ul li:nth-child(1) {
+  z-index: 3;
+}
+ul li:nth-child(1) .notification {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+ul li:nth-child(1) .notification .before, ul li:nth-child(1) .notification .after {
+  filter: saturate(130%) blur(16px);
+}
+ul li:nth-child(2) {
+  transform: translateY(16px) translateZ(-64px);
+  z-index: 2;
+}
+ul li:nth-child(2) .notification {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+ul li:nth-child(3) {
+  transform: translateY(32px) translateZ(-128px);
+  z-index: 1;
+}
+ul li:nth-child(3) .notification {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.container {
+  -webkit-clip-path: inset(0 0 0 0 round 16px 16px 16px 16px);
+          clip-path: inset(0 0 0 0 round 16px 16px 16px 16px);
+}
+
+.notification {
+  position: relative;
+  overflow: hidden;
+  height: 116px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+}
+.notification header, .notification .more {
+  opacity: 0.75;
+}
+.notification header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  font-size: 12px;
+}
+.notification header h2 {
+  text-transform: uppercase;
+}
+.notification header .timestamp {
+  text-transform: lowercase;
+}
+.notification .content span {
+  display: block;
+  line-height: 1.4;
+}
+.notification .content .message {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.notification .content .sender, .notification .content .event {
+  font-weight: 600;
+}
+.notification .content .more {
+  margin-top: 4px;
+  font-size: 12px;
+}
+.notification .before, .notification .after {
+  left: calc(50% - 50vw);
+}
+</style>
+
+  
+  
+  
+</head>
+
+<body translate="no">
+  <main id='main'>
+  <div class='before'></div>
+  <div class='after'></div>
+  <ul id='one'>
+    <li class='one'>
+      <div class='container'>
+        <div class='notification'>
+          <span class='before'></span>
+          <span class='after'></span>
+          <header>
+            <h2>Messages</h2>
+            <span class='timestamp'>Now</span>
+          </header>
+          <div class='content'>
+            <span class='sender'>Gabrielle Wee</span>
+            <span class='message'>Check it out! ✨</span>
+            <span class='more'>2 more messages from Gabrielle</span>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class='two'>
+      <div class='container'>
+        <div class='notification'>
+          <span class='before'></span>
+          <span class='after'></span>
+        </div>
+      </div>
+    </li>
+    <li class='three'>
+      <div class='container'>
+        <div class='notification'>
+          <span class='before'></span>
+          <span class='after'></span>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <ul id='two'>
+    <li class='one'>
+      <div class='container'>
+        <div class='notification'>
+          <span class='before'></span>
+          <span class='after'></span>
+          <header>
+            <h2>Calendar</h2>
+            <span class='timestamp'>1h ago</span>
+          </header>
+          <div class='content'>
+            <span class='event'>WWDC 2018</span>
+            <span class='date'>June 4, 2018 at 10:00 AM</span>
+            <span class='more'>2 more invitations</span>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class='two'>
+      <div class='container'>
+        <div class='notification'>
+          <span class='before'></span>
+          <span class='after'></span>
+        </div>
+      </div>
+    </li>
+    <li class='three'>
+      <div class='container'>
+        <div class='notification'>
+          <span class='before'></span>
+          <span class='after'></span>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <ul id='three'>
+    <li class='one'>
+      <div class='container'>
+        <div class='notification'>
+          <span class='before'></span>
+          <span class='after'></span>
+          <header>
+            <h2>Twitter</h2>
+            <span class='timestamp'>2h ago</span>
+          </header>
+          <div class='content'>
+            <span class='user'>Gabrielle Wee</span>
+            <span class='message'>Dark Mode for iOS would be so cool!</span>
+            <span class='more'>2 more notifications</span>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class='two'>
+      <div class='container'>
+        <div class='notification'>
+          <span class='before'></span>
+          <span class='after'></span>
+        </div>
+      </div>
+    </li>
+    <li class='three'>
+      <div class='container'>
+        <div class='notification'>
+          <span class='before'></span>
+          <span class='after'></span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</main>
+  <script src='https://unpkg.com/imagesloaded@4.1.4/imagesloaded.pkgd.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js'></script>
+      <script id="rendered-js" >
+const main = document.querySelector("#main");
+const elems = document.querySelectorAll(".notification");
+
+const getTop = el => {
+  const before = el.querySelector(".before");
+  const after = el.querySelector(".after");
+  let viewportOffset = el.getBoundingClientRect();
+  let elemTop = viewportOffset.top;
+  before.style.top = "-" + elemTop + "px";
+  after.style.top = "-" + elemTop + "px";
+};
+
+const lightToDark = () => {
+  const tl = new TimelineMax();
+  const groups = ["#one", "#two", "#three"];
+  tl.
+  set(".before", { opacity: 0 }).
+  set(groups, { opacity: 0, y: 60 }).
+  to(main, 0.5, { opacity: 1 }).
+  staggerTo(groups, 0.5, { opacity: 1, ease: Power3.easeOut }, 0.2).
+  staggerTo(groups, 1, { y: 0, ease: Power3.easeOut }, 0.2, '-=1').
+  to(".before", 2, { opacity: 1 }).
+  to(".after", 2, { opacity: 0 }, '-=1').
+  to(".notification", 0.25, { color: "#1b1e29" }, '-=3').
+  to(".notification", 1.75, { color: "white" }, '-=2.75').
+  to(".one .notification", 1, { backgroundColor: "rgba(17,19,26,0.6)" }, '-=3').
+  to(".one .notification", 1, { backgroundColor: "rgba(0,0,0,0.5)" }, '-=2.5').
+  to(".two .notification", 1, { backgroundColor: "rgba(17,19,26,0.5)" }, '-=3').
+  to(".two .notification", 1, { backgroundColor: "rgba(0,0,0,0.4)" }, '-=2.5').
+  to(".three .notification", 1, { backgroundColor: "rgba(17,19,26,0.4)" }, '-=3').
+  to(".three .notification", 1, { backgroundColor: "rgba(0,0,0,0.3)" }, '-=2.5');
+
+};
+
+imagesLoaded(main, { background: true }, () => {
+  elems.forEach(el => {
+    getTop(el);
+    window.addEventListener("resize", function () {
+      setTimeout(() => {
+        getTop(el);
+      }, 250);
+    });
+  });
+  window.requestAnimationFrame(lightToDark);
+});
+//# sourceURL=pen.js
+    </script>
+
+  
+  <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-44fe83e49b63affec96918c9af88c0d80b209a862cf87ac46bc933074b8c557d.js"></script>
+</body>
+
+</html>
+ -->

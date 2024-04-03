@@ -1,0 +1,344 @@
+
+{% extends 'base.html' %}
+
+{% block title %} Login Page - Poel {% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style type="text/css">
+    /*Start Global Style*/
+    *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        background:#e9ebee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height:100vh;
+        font-family: sans-serif;
+    }
+    .container{
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+      height:100%
+    }
+
+    .login ,.register{width: 50%}
+
+    /*Start Login Style*/
+    .login{
+/*        float:left;*/
+        background-color: #fafafa;
+        display: grid;
+        place-items: center;
+        height: 100%;
+        border-radius: 20px;
+        text-align: center;
+        padding-top: 100px;
+    }
+    .login h1{
+        margin-bottom: 40px;
+        font-size: 2.5em;
+    }
+
+    input[type="email"] , input[type="password"]{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 30px;
+        border: none;
+        background-color: #eeeeef;
+    }
+    input[type="checkbox"]{
+        float: left;
+        margin-right: 5px;
+    }
+    .login span{
+        float: left
+    }
+    .login a{
+        float: right;
+        text-decoration: none;
+        color: #11d9c7ad;
+        transition: 0.3s all ease-in-out;
+    }
+    .login a:hover{color: #11d9c7ad;font-weight: bold}
+    .login button{
+        width: 100%;
+        margin: 30px 0;
+        padding: 10px;
+        border: none;
+        background-color: #11d9c7ad;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        transition: 0.3s all ease-in-out;
+    }
+    .login button:hover{
+        width:97%;
+        font-size: 22px;
+        border-radius: 5px;
+        
+    }
+    .login hr{
+        width: 30%;
+        display: inline-block
+    }
+
+    .login p{
+        display: inline-block;
+        margin: 0px 10px 30px;
+    }
+    .login ul{
+        list-style: none;
+        margin-bottom:40px;  
+    }
+    .login ul li{
+        display: inline-block;
+        margin-right: 30px;
+        cursor: pointer;
+    }
+    .login ul li:hover{opacity: 0.6}
+    .login ul li:last-child{margin-right: 0}
+    .login .copyright{
+        display: inline-block;
+        float: none;
+    }
+    @media screen and (max-width: 600px) {
+        /* CSS rules for screens 600px or narrower */
+        .login{
+          width: 100%;
+        }
+        /* Add more styles specific to smaller screens as needed */
+    }
+  </style>
+  
+</head>
+<body>
+  <div class="container">
+      <div class="login">
+         <div class="container">
+              <h1>Log in</h1>
+              <form class="log-form" action="/login" method="POST">
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="password" placeholder="Password"><br>
+                <input type="checkbox"><span>Remember me</span>
+                <button type="submit">Log In</button>
+                <p>No account? <a href="/signup">&nbsp;Register</a></p>
+                <br>
+                &copy; 2023 IPING.
+              </form> 
+         </div>
+      </div>
+    </div>
+</body>
+</html>
+{% endblock %}
+		
+
+
+<!-- <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up Form</title>
+        <link rel="stylesheet" href="https://codepen.io/gymratpacks/pen/VKzBEp#0">
+        <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/main.css">
+        <style type="text/css">
+          *, *:before, *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+          }
+
+          body {
+            font-family: 'Nunito', sans-serif;
+            color: #384047;
+          }
+
+          form {
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background: #f4f7f8;
+            border-radius: 8px;
+          }
+
+          h1 {
+            margin: 0 0 30px 0;
+            text-align: center;
+          }
+
+          input[type="text"],
+          input[type="password"],
+          input[type="date"],
+          input[type="datetime"],
+          input[type="email"],
+          input[type="number"],
+          input[type="search"],
+          input[type="tel"],
+          input[type="time"],
+          input[type="url"],
+          textarea,
+          select {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            font-size: 16px;
+            height: auto;
+            margin: 0;
+            outline: 0;
+            padding: 15px;
+            width: 100%;
+            background-color: #e8eeef;
+            color: #8a97a0;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+            margin-bottom: 30px;
+          }
+
+          input[type="radio"],
+          input[type="checkbox"] {
+            margin: 0 4px 8px 0;
+          }
+
+          select {
+            padding: 6px;
+            height: 32px;
+            border-radius: 2px;
+          }
+
+          button {
+            padding: 19px 39px 18px 39px;
+            color: #FFF;
+            background-color: #4bc970;
+            font-size: 18px;
+            text-align: center;
+            font-style: normal;
+            border-radius: 5px;
+            width: 100%;
+            border: 1px solid #3ac162;
+            border-width: 1px 1px 3px;
+            box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+            margin-bottom: 10px;
+          }
+
+          fieldset {
+            margin-bottom: 30px;
+            border: none;
+          }
+
+          legend {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+          }
+
+          label {
+            display: block;
+            margin-bottom: 8px;
+          }
+
+          label.light {
+            font-weight: 300;
+            display: inline;
+          }
+
+          .number {
+            background-color: #5fcf80;
+            color: #fff;
+            height: 30px;
+            width: 30px;
+            display: inline-block;
+            font-size: 0.8em;
+            margin-right: 4px;
+            line-height: 30px;
+            text-align: center;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+            border-radius: 100%;
+          }
+
+          @media screen and (min-width: 480px) {
+
+            form {
+              max-width: 480px;
+            }
+
+          }
+
+        </style>
+    </head>
+    <body>
+      <div class="row">
+    <div class="col-md-12">
+      <form action="index.html" method="post">
+        <h1> Sign Up </h1>
+        
+        <fieldset>
+          
+          <legend><span class="number">1</span> Your Basic Info</legend>
+        
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="user_name">
+        
+          <label for="email">Email:</label>
+          <input type="email" id="mail" name="user_email">
+       
+          <label for="password">Password:</label>
+          <input type="password" id="password"       name="user_password">
+        
+          <label>Age:</label>
+          <input type="radio" id="under_13" value="under_13" name="user_age"><label for="under_13" class="light">Under 13</label><br>
+          <input type="radio" id="over_13" value="over_13" name="user_age"><label for="over_13" class="light">Over 13</label>
+          
+        </fieldset>
+        <fieldset>  
+        
+          <legend><span class="number">2</span> Your Profile</legend>
+          
+         <label for="bio">Bio:</label>
+          <textarea id="bio" name="user_bio"></textarea>
+        
+       
+        
+         <label for="job">Job Role:</label>
+          <select id="job" name="user_job">
+            <optgroup label="Web">
+              <option value="frontend_developer">Front-End Developer</option>
+              <option value="php_developer">PHP Developer</option>
+              <option value="python_developer">Python Developer</option>
+              <option value="rails_developer">Rails Developer</option>
+              <option value="web_designer">Web Designer</option>
+              <option value="wordpress_developer">Wordpress Developer</option>
+            </optgroup>
+            <optgroup label="Mobile">
+              <option value="android_developer">Android Developer</option>
+              <option value="ios_developer">IOS Developer</option>
+              <option value="mobile_designer">Mobile Designer</option>
+            </optgroup>
+            <optgroup label="Business">
+              <option value="business_owner">Business Owner</option>
+              <option value="freelancer">Freelancer</option>
+            </optgroup>
+          </select>
+          
+          <label>Interests:</label>
+          <input type="checkbox" id="development" value="interest_development" name="user_interest"><label class="light" for="development">Development</label><br>
+          <input type="checkbox" id="design" value="interest_design" name="user_interest"><label class="light" for="design">Design</label><br>
+          <input type="checkbox" id="business" value="interest_business" name="user_interest"><label class="light" for="business">Business</label>
+          
+         </fieldset>
+       
+        <button type="submit">Sign Up</button>
+        
+       </form>
+        </div>
+      </div>
+      
+    </body>
+</html>
+ -->

@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ current_user.name }} | PaperSphere {% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		/* Add your global styles here */
+		@import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+		body {
+		    font-family: "DM Sans", sans-serif;
+		}
+
+		/* Style the container */
+		.container {
+		    max-width: 960px;
+		    margin: 0 auto;
+		    padding: 20px;
+		}
+
+		/* Style the thread container */
+		.thread {
+		    background-color: #f5f5f5;
+		    border: 1px solid #ddd;
+		    padding: 10px;
+		    margin: 10px 0;
+		    border-radius: 20px;
+		}
+
+		/* Style the user thread */
+		.userThread {
+		    background-color: #fff;
+		    border: 1px solid #ddd;
+		    padding: 10px;
+		    border-left: 5px solid grey;
+		    margin: 10px 0;
+		    border-radius: 20px;
+		}
+
+		/* Style the title */
+		h2 {
+		    font-size: 24px;
+		    margin: 10px 0;
+		}
+
+		/* Style the image */
+		img {
+			max-width: 100%;
+			height: 70%;
+			width: 50%;
+			inline-size: 30rem;
+		    border-radius: 20px;
+		}
+
+		/* Style the description */
+		p {
+		    font-size: 16px;
+		}
+
+		/* Style the message input field */
+		textarea#intx {
+		    width: 100%;
+	      	padding: 10px;
+	      	margin-bottom: 10px;
+	/*      	outline: none;*/
+	/*      	border: none;*/
+	      	border: 2px solid #1f1c2e;
+	      	border-radius: 5px;
+	      	font-size: 16px;
+		}
+
+		/* Style the push message button */
+		button.pro-modal-button {
+		    background-color: #1f2937;
+		    color: #fff;
+		    border: none;
+		    border-radius: 4px;
+		      padding: 10px 20px;
+		      cursor: pointer;
+		      margin-top: 10px;
+		    cursor: pointer;
+		}
+		.skills, .thedate, .creatorID{
+			padding: 10px;
+			background: #1f2937;
+			font-weight: bolder;
+			border-radius: 10pc;
+			width: fit-content;
+			color: white;
+		}
+		.header{
+			display: grid;
+			grid-template-columns: auto auto;
+		}
+		.header svg{
+			border-radius: 20pc;
+			transition: 1.2s;
+			cursor: pointer;
+		}
+		.header svg:hover{
+			background: #cfccd3;
+		}
+
+		.stats{
+			display: grid;
+			grid-template-columns: auto auto auto;
+			text-align: center;
+		}
+		.nos{
+			margin: 10px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+		.cont-a, .cont-b, .cont-c{
+			margin: 10px;
+			border-radius: 20pc;
+			padding-top: 25px;
+			padding-bottom: 25px;
+		}
+		.cont-a{
+			background: #00adff8a;
+		}
+		.cont-b{
+			background: #ff6a008a;
+		}
+		.cont-c{
+			background: #ccff008a;
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<a href="/homeT">
+			<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+		  <path d="M38.04,23.69H10.11l6.68-6.68a1,1,0,0,0-1.41-1.41L6.36,24.35a1,1,0,0,0,0,1.41L15.42,34.65a1,1,0,0,0,1.41-1.41l-6.68-6.68H38.04a1,1,0,0,0,0-2Z"/>
+		</a>
+	  <h1>Assignment Thread</h1>
+
+	</svg>
+
+	</div>
+
+
+	<div class="thread">
+		{% if sas: %}
+			<div class="stats">
+				<div class="nos">
+					<div class="cont-a">{{ nos }}</div>
+					<p>Total Submissions</p>
+				</div>
+
+				<div class="nos">
+					<div class="cont-b">0</div>
+					<p>Other Statisttics</p>
+				</div>
+
+				<div class="nos">
+					<div class="cont-c">0</div>
+					<p>Other Statisttics</p>
+				</div>
+			</div>
+    		{% for sa in sas: %}
+    			<h2>{{ sa.name }}</h2>
+    			{% if ".png" in sa.image: %}
+                    <img src="{{ url_for('views.uploaded_file', filename=sa.image) }}">
+                {% elif ".jpg" in sa.image or ".jpeg" in sa.image: %}
+                    <img src="{{ url_for('views.uploaded_file', filename=sa.image) }}">
+                {% elif ".tiff" in sa.image: %}
+                    <img src="{{ url_for('views.uploaded_file', filename=sa.image) }}">
+                {% elif ".gif" in sa.image: %}
+                    <img src="{{ url_for('views.uploaded_file', filename=sa.image) }}">
+                {% elif ".bmp" in sa.image: %}
+                    <img src="{{ url_for('views.uploaded_file', filename=sa.image) }}">
+                {% elif ".webp" in sa.image: %}
+                    <img src="{{ url_for('views.uploaded_file', filename=sa.image) }}">
+                {% elif ".svg" in sa.image: %}
+                    <img src="{{ url_for('views.uploaded_file', filename=sa.image) }}">
+                {% elif ".ico" in sa.image: %}
+                    <img src="{{ url_for('views.uploaded_file', filename=sa.image) }}">
+                {% elif sa.image == "": %}
+                	<div></div>
+    			{% else: %}
+    			    <a href="{{ url_for('views.uploaded_file', filename=sa.image) }}" download><button class="pro-modal-button">Download Attached File</button></a>
+    			{% endif %}
+    			<p>Solution: {{ bullet.bullet(sa.data, nl="markup") }}</p>
+
+    			<p> <u> <i> Other Info </i> </u> </p>
+    			<p>Email: {{ sa.email }}</p>
+    			<p>Submitted on <strong>{{ sa.date }}</strong> by <strong>{{ sa.time }}</strong></p>
+    			<hr>
+    		{% endfor %}
+    	{% else: %}
+    		<p>No one have submitted yet!</p>
+    	{% endif %}
+	</div>
+</body>
+</html>
+
+{% endblock %}

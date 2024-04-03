@@ -1,0 +1,148 @@
+
+{% extends 'base.html' %}
+{% block title %} SignUp Page - Poel {% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style type="text/css">
+    /*Start Global Style*/
+    *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        background:#e9ebee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height:100vh;
+        font-family: sans-serif;
+    }
+    .container{
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+      height:100%
+    }
+
+    .login ,.register{width: 50%}
+
+    /*Start Login Style*/
+    .login{
+/*        float:left;*/
+        background-color: #fafafa;
+        display: grid;
+        place-items: center;
+        height: 100%;
+        border-radius: 20px;
+        text-align: center;
+        padding-top: 100px;
+    }
+    .login h1{
+        margin-bottom: 40px;
+        font-size: 2.5em;
+    }
+
+    input[type="email"] , input[type="password"], input[type="number"], input[type="text"], select{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 30px;
+        border: none;
+        background-color: #eeeeef;
+    }
+    input[type="checkbox"]{
+        float: left;
+        margin-right: 5px;
+    }
+    .login span{
+        float: left
+    }
+    .login a{
+        float: right;
+        text-decoration: none;
+        color: #11d9c7ad;
+        transition: 0.3s all ease-in-out;
+    }
+    .login a:hover{color: #11d9c7ad;font-weight: bold}
+    .login button{
+        width: 100%;
+        margin: 30px 0;
+        padding: 10px;
+        border: none;
+        background-color: #11d9c7ad;
+        border-radius: 20pc;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        transition: 0.3s all ease-in-out;
+    }
+    .login button:hover{
+        width:97%;
+        font-size: 22px;
+        
+    }
+    .login hr{
+        width: 30%;
+        display: inline-block
+    }
+
+    .login p{
+        display: inline-block;
+        margin: 0px 10px 30px;
+    }
+    .login ul{
+        list-style: none;
+        margin-bottom:40px;  
+    }
+    .login ul li{
+        display: inline-block;
+        margin-right: 30px;
+        cursor: pointer;
+    }
+    .login ul li:hover{opacity: 0.6}
+    .login ul li:last-child{margin-right: 0}
+    .login .copyright{
+        display: inline-block;
+        float: none;
+    }
+    @media screen and (max-width: 600px) {
+        .login{
+          width: 100%;
+        }
+        /* Add more styles specific to smaller screens as needed */
+    }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+      <div class="login">
+         <div class="container">
+              <h1>Create an account</h1>
+              <form class="sig-form" action="/signup" method="POST">
+                <input type="text" name="name" placeholder="Your Name">
+                <input type="text" name="theage" placeholder="Your Age"><!-- 
+                <input type="text" name="school" placeholder="Your Current School (Optional)">
+                <input type="text" name="class" placeholder="Your Current Class (Optional)"> -->
+                <input type="email" name="email" placeholder="Your Email">
+                <input type="password" name="password" placeholder="Your Password"><br>
+                <input type="password" name="password2" placeholder="Confirm Password"><br>
+                <button type="sumbit">Sign Up</button>
+              </form>
+              <p>Have an account? <a href="/login">&nbsp;Login</a></p>
+              <br>
+              <br>
+              &copy; 2023 IPING.
+              <div class="clearfix"></div> 
+         </div>
+      </div>
+    </div>
+
+</body>
+</html>
+{% endblock %}
+		

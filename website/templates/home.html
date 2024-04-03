@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Logged in as {{ current_user.name }}</title>
+	<style type="text/css">
+		@keyframes changeB{
+			0%{
+				background: linear-gradient(128deg, #d9118747, #11d9c7ad);
+			}
+			10%{
+				background: linear-gradient(138deg, #d9118747, #11d9c7ad);
+			}
+			20%{
+				background: linear-gradient(148deg, #d9118747, #11d9c7ad);
+			}
+			30%{
+				background: linear-gradient(158deg, #d9118747, #11d9c7ad);
+			}
+			40%{
+				background: linear-gradient(168deg, #d9118747, #11d9c7ad);
+			}
+			50%{
+				background: linear-gradient(178deg, #d9118747, #11d9c7ad);
+			}
+			60%{
+				background: linear-gradient(188deg, #d9118747, #11d9c7ad);
+			}
+			70%{
+				background: linear-gradient(198deg, #d9118747, #11d9c7ad);
+			}
+			80%{
+				background: linear-gradient(208deg, #d9118747, #11d9c7ad);
+			}
+			90%{
+				background: linear-gradient(218deg, #d9118747, #11d9c7ad);
+			}
+			100%{
+				background: linear-gradient(228deg, #d9118747, #11d9c7ad);
+			}
+		}
+		body{
+			display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    height: 100vh;
+			font-family: "Segoe UI";
+			transition: ease-in;
+			background: linear-gradient(118deg, #d9118747, #11d9c7ad);
+			animation: changeB 5s infinite linear;
+		}
+		body p{
+			font-weight: bolder;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<p>You've done it, you can now redefine, reimagine and recreate with Poel!</p>
+</body>
+</html>
+		

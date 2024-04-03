@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Receipt</title>
+	<style>
+		.receipt{
+			border: 2px solid black;
+			text-align: center;
+			padding: 5px;
+			font-weight: 800;
+			font-family: Arial, Helvetica, sans-serif;
+			background: linear-gradient(to left, #687a8587, #81696998);
+			border-radius: 8px;
+			width: 100%;
+		}
+		#recIntro{
+			font-size: 20px;
+			font-family: Georgia, 'Times New Roman', Times, serif;
+			color: darkslategrey;
+		}
+		#issuedTo, #issuedFrom, #issuedOn, #issuedBy, #issuedToSub{
+			margin: 5px;
+			font-size: 50px;
+		}
+		.rating img{
+			height: 30px;
+			width: 30px;
+		}
+		.rating span{
+			font-size: 25px;
+		}
+		.rating{
+			border: 2px solid black;
+			border-radius: 10px;
+		}
+		#footer{
+			border: 2px solid black;
+			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="receipt">
+		<p id="recIntro">R.O.A.S Certificate of a Submitted Assignment</p>
+		<span>Name: </span><span id="issuedTo"></span>
+		<br>
+		<hr>
+		<span>Class: </span><span id="issuedFrom"></span>
+		<br>
+		<hr>
+		<span>Date: </span><span id="issuedOn"></span>
+		<br>
+		<hr>
+		<span>Subject: </span><span id="issuedToSub"></span>
+		<br>
+		<hr>
+		<span>Time: </span><span id="issuedBy"></span>
+		<br>
+		<hr>
+		<div class="rating">
+			<img src="todo.png" alt="good" id="img"><span> Success</span>
+		</div>
+
+		<br>
+
+		<!-- <span id="footer">| &copy; R.O.A.S | All Rights Reserved. |</span> -->
+	</div>
+
+	
+	<input type="date" name="" id="datess">
+	<button id="id">sack</button>
+<script>
+	var letter = {
+            'A': 1,
+            'B' : 10,
+            'C' : 11,
+            'D' : 100,
+            'E' : 101,
+            'F' : 110,
+            'G' : 111,
+            'H' : 1000,
+            'I' : 1001,
+            'J' : 1010,
+            'K' : 1011,
+            'L' : 1100,
+            'M' : 1101,
+            'N' : 1110,
+            'O' : 1111,
+            'P' : 10000,
+            'Q' : 10001,
+            'R' : 10010,
+            'S' : 10011,
+            'T' : 10100,
+            'U' : 10101,
+            'V' : 10110,
+            'W' : 10111,
+            'X' : 11000,
+            'Y' : 11001,
+            'Z' : 11010
+
+    }
+	console.log(letter.E + ":" + letter.C + ":" + letter.M);
+
+	var clockDiv = document.getElementById("issuedBy");
+
+	var updateTime = setInterval(timeUpdate, 1000);
+
+	function timeUpdate() {
+      
+	  var theDate = new Date();
+	  var theYear = theDate.getYear();
+	  theYear = theYear - 100 + 2000;
+	  var theMonth = theDate.getMonth();
+	  var theDay = theDate.getDay();
+	//   clockDiv.innerHTML = theYear + "/" + (theMonth < 10 ? "0" : "") + theMonth + "/" + (theDay < 10 ? "0" : "") + theDay;
+	  clockDiv.innerHTML = theDate.getDate();
+	  clockDiv.style = "font-size: 19px;"
+	}
+
+	var date = new Date()
+	console.log(date.getDay())
+	function evaluate(){
+		// if (date.getFullYear) {
+			
+		// }
+	}
+
+
+	document.getElementById('id').addEventListener("click", function(){
+		dateD = document.getElementById('datess').value;
+		console.log(dateD);
+		dat = document.getElementById('datess').value;
+		dat.classList.replace("a", "c");
+	});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% for cass in current_user.communities %}
+        <input type="hidden" name="community_id" value="{{ cass.id }}">
+        <!-- This hidden input field stores the community_id for each community in the loop. -->
+        <!-- This way, you can identify which community you're updating when you push a message. -->
+        <div class="thread">
+            {% if cass.assignments %}
+                {% for com_ass in cass.assignments %}
+                    <div class="userThread">
+                        <h2>{{ com_ass.name }}</h2>
+                        <img src="{{ url_for('views.uploaded_file', filename=com_ass.image) }}">
+                        <p>{{ com_ass.description }}</p>
+                        <br>
+                        <p>Resources/Tools used: <strong class="skills">{{ com_ass.skills }}</strong></p>
+                        <br>
+                        <p>Completed: <strong class="thedate">{{ com_ass.date }}</strong></p>
+                        <br>
+                        <p>Creator: <strong class="creatorID">@{{ (userDB.query.filter_by(id=com_ass.user_id).first()).name }}</strong></p>
+                    </div>
+
+                {% endfor %}
+            {% else %}
+                <p>No threads yet.</p>
+            {% endif %}
+        </div>
+        <!-- Include your message input field and submit button here -->
+        <textarea id="intx" type="text" name="newMessage" placeholder="Your message"></textarea>
+        <button class="pro-modal-button" type="submit">Push Message</button>
+    {% endfor %}

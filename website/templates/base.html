@@ -1,0 +1,92 @@
+
+<title>{% block title %} Poel {% endblock %}</title>
+
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  {% for category, message in messages %}
+    {% if category == 'Error occurred' %}
+      <div id="modal" class="modal">
+          <div class="modal-content" style="background: #e11515de; color: #fff;">
+              <span class="close" id="closeModalBtn">&times;</span>
+              <h2 style="color: #fff">{{ category }}</h2>
+              <p>{{ message }}</p>
+          </div>
+      </div>
+    {% elif category == 'Deadline reached' %}
+      <div id="modal" class="modal">
+          <div class="modal-content" style="background: #e11515de; color: #fff;">
+              <span class="close" id="closeModalBtn">&times;</span>
+              <h2 style="color: #fff">{{ category }}</h2>
+              <p>{{ message }}</p>
+          </div>
+      </div>
+    {% elif category == 'Unverified Account' %}
+      <div id="modal" class="modal">
+          <div class="modal-content" style="background: #e11515de; color: #fff;">
+              <span class="close" id="closeModalBtn">&times;</span>
+              <h2 style="color: #fff">{{ category }}</h2>
+              <p>{{ message }}</p>
+          </div>
+      </div>
+    {% elif category == 'Success' %}
+      <div id="modal" class="modal">
+          <div class="modal-content" style="background: #18b318d6; color: #fff;">
+              <span class="close" id="closeModalBtn">&times;</span>
+              <h2 style="color: #fff">{{ category }}</h2>
+              <p>{{ message }}</p>
+          </div>
+      </div>
+    {% elif category == 'Important' %}
+      <div id="modal" class="modal">
+          <div class="modal-content" style="background: orange; color: #fff;">
+              <span class="close" id="closeModalBtn">&times;</span>
+              <h2 style="color: #fff">{{ category }}</h2>
+              <p>{{ message }}</p>
+          </div>
+      </div>
+    {% else %}
+      <div id="modal" class="modal">
+          <div class="modal-content" style="background: purple; color: #fff;">
+              <span class="close" id="closeModalBtn">&times;</span>
+              <h2 style="color: #fff">{{ category }}</h2>
+              <p>{{ message }}</p>
+          </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endwith %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+{% block content %}
+
+<!-- Start Landing Page -->
+<div class="landing-page">
+  <header>
+    <div class="container">
+      <a href="#" class="logo">Poel</a>
+      <ul class="links">
+        <a href="/"><li>Home</li></a>
+        <a href="http://bluvid.000webhostapp.com/apps-page.html"><li>About Us</li></a>
+        <a href="/signup"><li>Get Started</li></a>
+      </ul>
+    </div>
+  </header>
+  <div class="content">
+    <div class="container">
+      <div class="info">
+        <h1>Share your work.</h1>
+        <p>
+          Poel, your Flask project manager.
+    </p>
+        <a href="/login"><button>Login</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+		

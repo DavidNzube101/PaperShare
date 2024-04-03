@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ Student.name }} Profile | PaperSphere {% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+			@import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+			body {
+			    font-family: "DM Sans", sans-serif;
+			}
+
+			/* Style the container */
+			.container {
+			    max-width: 960px;
+			    margin: 0 auto;
+			    padding: 20px;
+			}
+
+			/* Style the thread container */
+			.thread {
+			    background-color: #f5f5f5;
+			    border: 1px solid #ddd;
+			    padding: 10px;
+			    overflow-x: auto;
+			    overflow-y: hidden;
+			    margin: 10px 0;
+			    border-radius: 20px;
+			}
+			.thr-hd{
+				display: grid;
+			    grid-template-columns: auto auto;
+			}
+			
+			.header{
+				display: grid;
+				grid-template-columns: auto auto;
+			}
+			.header svg{
+				border-radius: 20pc;
+				transition: 1.2s;
+				cursor: pointer;
+			}
+			.header svg:hover{
+				background: #cfccd3;
+			}
+			.abbr{
+				background: {{ radColor  }};
+				border-radius: 10pc;
+				padding: 40px;
+				font-size: 30px;
+				width: fit-content;
+			}
+			.details{
+				margin-left: 10px;
+			}
+			.nosa{
+/*				border: 5px solid red;*/
+				border-radius: 10pc;
+				padding: 40px;
+				font-size: 30px;
+				width: fit-content;
+			}
+			.msa{
+/*				border: 5px dotted red;*/
+				border-radius: 10pc;
+				padding: 40px;
+				font-size: 30px;
+				width: fit-content;
+			}
+			.metrics{
+				display: flex;
+				justify-content: space-between;
+				text-align: center;
+			}
+			.nosa-ct, .msa-ct{
+				padding: 10px;
+				background: #e3e1e1;
+				border-radius: 10px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+				transition: 0.2s;
+			}
+			.nosa-ct:hover, .msa-ct:hover{
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+			}
+	</style>
+</head>
+<body>
+
+	<div class="header">
+		<a href="/homeT">
+			<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+		  <path d="M38.04,23.69H10.11l6.68-6.68a1,1,0,0,0-1.41-1.41L6.36,24.35a1,1,0,0,0,0,1.41L15.42,34.65a1,1,0,0,0,1.41-1.41l-6.68-6.68H38.04a1,1,0,0,0,0-2Z"/>
+		</a>
+	  <h1>{{ Student.name }} Profile</h1>
+
+	</svg>
+
+	</div>
+
+	<div class="thread">
+		<div class="thr-hd">
+			<div class="abbr">
+				{{ an(Student.name) }}
+			</div>
+
+			<div class="details">
+				<h1>{{ Student.name }}</h1>
+				<h3>{{ Student.email }}</h3>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="metrics">
+			<div class="nosa-ct">
+				<div class="nosa">
+					{{ wtr[1] }}
+				</div>
+				<h3>Number of sumbited assignments</h3>
+			</div>
+
+			<!-- <div class="msa-ct">
+				{% if wtr[2] == True: %}
+					<div class="msa">
+						3
+					</div>
+					<h3>Coding and Robotics</h3>
+					<h5>Most submitted subject</h5>
+				{% else: %}
+					<div class="msa">
+						0
+					</div>
+					No data yet!
+				{% endif %}
+			</div> -->
+		</div>
+
+		
+	</div>
+
+</body>
+</html>
+
+{% endblock %}
+
+
+<!-- 
+if i have a list `animals = ["Dog", "Cat", "Sheep", "Cat", "Sheep", "Sheep", "Cat", "Dog"]`
+
+how do i check the total number of times each element in the list appears/occurs -->
