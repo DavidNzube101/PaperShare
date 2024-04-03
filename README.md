@@ -1,5 +1,3 @@
-I'd be glad to create a README for your Flask project "Assignment/Homework Management Tool":
-
 **Assignment/Homework Management Tool**
 
 This Python project, built using Flask, provides a user-friendly web application for managing assignments and homework. Instructors or students can create, view, update, and delete assignments, keeping track of deadlines and important details.
@@ -46,7 +44,7 @@ This is a basic foundation, and you can enhance it further by:
 * Adding functionalities like file uploads for submitting assignments or attaching relevant resources.
 * Creating visualizations to represent deadlines or workload distribution.
 
-Feel free to explore Flask's documentation ([invalid URL removed]) and other online resources to tailor the application to your specific needs.
+Feel free to explore Flask's documentation and other online resources to tailor the application to your specific needs.
 
 **Contributing**
 
@@ -54,6 +52,4 @@ If you'd like to contribute to this project, feel free to fork the repository, m
 
 **License**
 
-(Specify the license under which you distribute your code. Common open-source licenses include MIT, Apache, or GPL. You can find license templates online.)
-
-I hope this README provides a comprehensive overview of your project!
+MIT LICENSE 
